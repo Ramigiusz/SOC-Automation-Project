@@ -1,4 +1,4 @@
-# PROJECTNAME
+# Malware Analysis with FlareVM
 
 ## Objective
 [Brief Objective - Remove this afterwards]
