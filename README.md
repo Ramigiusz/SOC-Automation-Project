@@ -1,4 +1,4 @@
-# Virtual Security Home Lab
+# SOC Automation Lab
 
 
 ## Project Introduction
