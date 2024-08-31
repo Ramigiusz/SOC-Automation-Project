@@ -16,6 +16,7 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
 - Wazuh for monitoring security events and analyzing data.
 - Shuffle for creating automation workflows that handle alerts and incidents.
 - TheHive for managing incidents and helping the team collaborate.
+- Sysmon for detailed system monitoring on the Windows Wazuh Agent, capturing key event data.
 
 ## Steps
 
