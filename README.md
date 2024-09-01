@@ -27,3 +27,6 @@ By the end of this step, we will have:
 - A Windows 10 machine with Sysmon installed
 - A Wazuh Server
 - A TheHive Server
+
+#### Windows 10 Installation
+Start by downloading Windows 10 installation media from Microsoft website, https://www.microsoft.com/en-us/software-download/windows10
