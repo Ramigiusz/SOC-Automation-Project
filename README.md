@@ -24,6 +24,6 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
 We'll kick off our project by setting up the necessary virtual machines and tools in our lab environment. This step involves the installation, configuration, and implementation of the key components we'll be using.
 
 By the end of this step, we will have:
-- A Windows 10 machine with Sysmon installed for detailed system monitoring.
-- A Wazuh Server for collecting and analyzing security events.
-- A TheHive Server for incident management and collaboration.
+- A Windows 10 machine with Sysmon installed
+- A Wazuh Server
+- A TheHive Server
