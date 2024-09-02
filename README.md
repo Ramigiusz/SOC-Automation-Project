@@ -81,6 +81,10 @@ Here’s how to get Sysmon up and running:
     - To configure Sysmon effectively, you'll need a well-balanced configuration file. A great resource for this is the Sysmon Modular project on GitHub.
     - Go to Sysmon Modular on GitHub. https://github.com/olafhartong/sysmon-modular
     - Look for the sysmonconfig.xml file. This file offers a balanced configuration for Sysmon, providing a good mix of detailed event logging without overwhelming your system with excessive data.
+   
+    ![image](https://github.com/user-attachments/assets/16b1cfee-523c-4266-86b2-10619b559220)
+    ![image](https://github.com/user-attachments/assets/b2a28cd9-07ac-4241-8b3e-3914bd9d0f1c)
+
 3. Install Sysmon with the Configuration:
     - Once you have both Sysmon and the sysmonconfig.xml file, open a command prompt with administrative privileges.
     - Navigate to the directory where you downloaded Sysmon.
@@ -89,5 +93,12 @@ Here’s how to get Sysmon up and running:
     sysmon -accepteula -i sysmonconfig.xml
     ```
     This command installs Sysmon, accepts the license agreement, and applies the balanced configuration from the sysmonconfig.xml file.
-4. Restart your virtual machine to ensure that Sysmon starts logging events
+   ![image](https://github.com/user-attachments/assets/2b139299-45ad-4381-a941-d651892042a9)
+
+5. Restart your virtual machine to ensure that Sysmon starts logging events
+6. Check if Sysmon is running:
+
+   You can easily check is Sysmon is running by examining event logs itself, just head to the Event Viewer and find Sysmon logs.
+   **Applications and Services -> Microsoft -> Windows -> Sysmon**
+    ![image](https://github.com/user-attachments/assets/ddb26fe8-144b-4edd-89fe-8f5960f9afda)
 
