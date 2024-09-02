@@ -69,3 +69,25 @@ Once the installation is finished, restart your virtual machine to apply the cha
 ![image](https://github.com/user-attachments/assets/4bb97b74-a28a-4868-8ad1-c9306798d99a)
 ![image](https://github.com/user-attachments/assets/aed61c5d-0d81-4e0d-b346-84ee7ccf2cc5)
 
+#### 1.4 Install Sysmon for Enhanced Event Tracking
+The final step in setting up your Windows 10 machine is to install Sysmon from Sysinternals. Sysmon is a powerful tool that significantly enhances your event tracking capabilities, making it invaluable for monitoring system activity and detecting potential threats. This will be crucial for the practical examples and use cases we'll explore in this project.
+
+Here’s how to get Sysmon up and running:
+1.Download Sysmon:
+  Visit the official Sysmon download page on Microsoft’s website. https://learn.microsoft.com/pl-pl/sysinternals/downloads/sysmon
+  Download the latest version of Sysmon to your Windows 10 virtual machine.
+2. Obtain a Configuration File:
+  - To configure Sysmon effectively, you'll need a well-balanced configuration file. A great resource for this is the Sysmon Modular project on GitHub.
+  - Go to Sysmon Modular on GitHub. https://github.com/olafhartong/sysmon-modular
+  - Look for the sysmonconfig.xml file. This file offers a balanced configuration for Sysmon, providing a good mix of detailed event logging without overwhelming your system with excessive data.
+3. Install Sysmon with the Configuration:
+Once you have both Sysmon and the sysmonconfig.xml file, open a command prompt with administrative privileges.
+Navigate to the directory where you downloaded Sysmon.
+Run the following command to install Sysmon with your chosen configuration file:
+css
+Skopiuj kod
+sysmon -accepteula -i sysmonconfig.xml
+This command installs Sysmon, accepts the license agreement, and applies the balanced configuration from the sysmonconfig.xml file.
+Restart Your Machine:
+
+After installation, restart your virtual machine to ensure that Sysmon starts logging events according to the new configuration.
