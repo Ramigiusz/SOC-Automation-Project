@@ -28,23 +28,29 @@ By the end of this step, we will have:
 - A Wazuh Server.
 - A TheHive Server.
 #### 1.1 VirtualBox Installation
-For virtualization, we will use VirtualBox software, which will provide us with the environment needed to deploy virtual machines. You can download and install VirtualBox from their official website.
+For virtualization, we will use VirtualBox software, which will provide us with the environment needed to deploy virtual machines. You can download and install VirtualBox from their official website https://www.virtualbox.org/wiki/Downloads
 
 During installation, it's recommended to compare the checksums to verify the integrity of the downloaded file. You can find more information about this on the VirtualBox downloads page.
 
 #### 1.2 Windows 10 Installation
-Start by downloading the Windows 10 installation media from the official Microsoft website. Then follow these steps:
+Start by downloading the Windows 10 installation media from the official Microsoft website https://www.microsoft.com/en-us/software-download/windows10 Then follow these steps:
 1. Choose the option to create installation media for a different computer.
 2. Select the option to download an ISO file.
 3. Choose your desired location and complete the download.
 
 In VirtualBox, click on "New" to create a new virtual machine. When prompted, select the Windows 10 ISO file you downloaded earlier.
 
+![image](https://github.com/user-attachments/assets/eec4140e-a27c-4d9c-bb4a-62e259965da9)
+
+
 I recommend selecting "Unattended Installation" if you want to manually install the OS, but you can choose to do this differently if you prefer. Next, you'll be asked to configure the hardware specifications for your virtual machine. Here's a recommended setup:
 - At least 4 GB of RAM.
 - 2 CPUs.
 - 50 GB of storage.
 This configuration should ensure that the machine runs smoothly.
+
+![image](https://github.com/user-attachments/assets/2f96a6c8-d1ed-41ea-984f-91790db64f3a)
+
 
 Once configured, you should see your machine listed in the VirtualBox dashboard.
 
@@ -59,5 +65,6 @@ To enhance your Windows 10 virtual machine's performance and enable features lik
 5. Follow the prompts to complete the installation.
 Once the installation is finished, restart your virtual machine to apply the changes.
 
+![image](https://github.com/user-attachments/assets/4bb97b74-a28a-4868-8ad1-c9306798d99a)
+![image](https://github.com/user-attachments/assets/aed61c5d-0d81-4e0d-b346-84ee7ccf2cc5)
 
-https://www.microsoft.com/en-us/software-download/windows10
