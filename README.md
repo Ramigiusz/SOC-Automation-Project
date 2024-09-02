@@ -24,9 +24,40 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
 We'll kick off our project by setting up the necessary virtual machines and tools in our lab environment. This step involves the installation, configuration, and implementation of the key components we'll be using.
 
 By the end of this step, we will have:
-- A Windows 10 machine with Sysmon installed
-- A Wazuh Server
-- A TheHive Server
+- A Windows 10 machine with Sysmon installed.
+- A Wazuh Server.
+- A TheHive Server.
+#### 1.1 VirtualBox Installation
+For virtualization, we will use VirtualBox software, which will provide us with the environment needed to deploy virtual machines. You can download and install VirtualBox from their official website.
 
-#### Windows 10 Installation
-Start by downloading Windows 10 installation media from Microsoft website, https://www.microsoft.com/en-us/software-download/windows10
+During installation, it's recommended to compare the checksums to verify the integrity of the downloaded file. You can find more information about this on the VirtualBox downloads page.
+
+#### 1.2 Windows 10 Installation
+Start by downloading the Windows 10 installation media from the official Microsoft website. Then follow these steps:
+1. Choose the option to create installation media for a different computer.
+2. Select the option to download an ISO file.
+3. Choose your desired location and complete the download.
+
+In VirtualBox, click on "New" to create a new virtual machine. When prompted, select the Windows 10 ISO file you downloaded earlier.
+
+I recommend selecting "Unattended Installation" if you want to manually install the OS, but you can choose to do this differently if you prefer. Next, you'll be asked to configure the hardware specifications for your virtual machine. Here's a recommended setup:
+- At least 4 GB of RAM.
+- 2 CPUs.
+- 50 GB of storage.
+This configuration should ensure that the machine runs smoothly.
+
+Once configured, you should see your machine listed in the VirtualBox dashboard.
+
+Launch your virtual machine and proceed with the Windows installation. During the process, when asked for a product key, select "I don't have a product key." Then, choose "Windows 10 Pro" as the version to install. Select "Custom: Install Windows only" to continue. Windows will now begin installing in the background.
+
+#### 1.3 Install VirtualBox Guest Additions
+To enhance your Windows 10 virtual machine's performance and enable features like shared folders, improved video support, and seamless mouse integration, we'll install VirtualBox Guest Additions. Here’s how to do it:
+1. With your Windows 10 virtual machine running, click on "Devices" in the VirtualBox menu.
+2. Select "Insert Guest Additions CD Image" from the dropdown menu.
+3. Open "This PC" in Windows Explorer, where you will see the Guest Additions CD drive.
+4. Double-click the drive to open it, then run the installation file (VBoxWindowsAdditions.exe).
+5. Follow the prompts to complete the installation.
+Once the installation is finished, restart your virtual machine to apply the changes.
+
+
+https://www.microsoft.com/en-us/software-download/windows10
