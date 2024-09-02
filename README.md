@@ -51,10 +51,11 @@ This configuration should ensure that the machine runs smoothly.
 
 ![image](https://github.com/user-attachments/assets/2f96a6c8-d1ed-41ea-984f-91790db64f3a)
 
-
 Once configured, you should see your machine listed in the VirtualBox dashboard.
 
 Launch your virtual machine and proceed with the Windows installation. During the process, when asked for a product key, select "I don't have a product key." Then, choose "Windows 10 Pro" as the version to install. Select "Custom: Install Windows only" to continue. Windows will now begin installing in the background.
+
+![image](https://github.com/user-attachments/assets/bac583e8-8231-449d-b432-63f40a5c3768)
 
 #### 1.3 Install VirtualBox Guest Additions
 To enhance your Windows 10 virtual machine's performance and enable features like shared folders, improved video support, and seamless mouse integration, we'll install VirtualBox Guest Additions. Here’s how to do it:
