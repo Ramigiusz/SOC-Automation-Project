@@ -103,14 +103,43 @@ Here’s how to get Sysmon up and running:
     ![image](https://github.com/user-attachments/assets/ddb26fe8-144b-4edd-89fe-8f5960f9afda)
 
 #### 1.5 Install Ubuntu VMs
-Now to finish this step we will install ubuntu systems for our Wazuh Manager and TheHive
-TheHive and Wazuh are compatible with Ubuntu 22.04 LTS.
-We can download Ubuntu ISO from https://ubuntu.com/download/alternative-downloads#other-images-and-mirrors
-Just like we did with the Windows 10 setup, you'll create two new virtual machines in VirtualBox, one for TheHive server and another for the Wazuh Manager.
+To complete this step, we'll install Ubuntu systems for our Wazuh Manager and TheHive. Both TheHive and Wazuh are compatible with Ubuntu 22.04 LTS.
 
-After installation, make sure to update both Ubuntu systems and install any required dependencies. 
-1. sudo apt update: Refreshes the list of available packages and their versions, but it doesn’t install or upgrade any packages.
-2. sudo apt upgrade: Upgrades all the packages that are currently installed to their latest versions according to the updated package list.
+![image](https://github.com/user-attachments/assets/1dc71d67-85b4-43de-9342-e061b1903276)
+
+I'll be using DigitalOcean's cloud services for both virtual machines to conserve local computer resources. You can choose any cloud provider or create additional VMs on your local machine. I opted for DigitalOcean because they offer a free $200 credit, which should be sufficient to complete our project without incurring any costs.
+Next, we'll set up the Wazuh Manager on a DigitalOcean droplet (DigitalOcean's term for virtual machines). 
+Follow these steps:
+- Navigate to the DigitalOcean dashboard and click on **Create -> Droplets.**
+- Select a region that is **geographically closest** to you for better latency and performance.
+- Choose **Ubuntu 22.04 LTS** as the operating system image.
+- Select a droplet with **8 GB of RAM** and **50 GB of storage** to ensure it can handle the Wazuh Manager's requirements.
+- For security, especially since this machine will be exposed to the internet, choose a **strong authentication method**. I will be using password, but if you prefer, you can select a SSH keys. Ensure the password is strong and unique.
+- Give your droplet a meaningful name, such as** "WazuhManager"**, to easily identify it in your dashboard.
+- Once you've configured everything, click **Create Droplet** to start the deployment process.
+
+![image](https://github.com/user-attachments/assets/0b8e391a-449c-40a7-9f52-89de3f25de30)
+
+While your droplet is deploying, it's important to secure it by setting up firewall rules. We'll configure the firewall to only allow traffic from your machine to this VM.
+Navigate to **Networking** and **Firewalls**
+
+![image](https://github.com/user-attachments/assets/85d0d3bf-d57d-40e9-9b86-0c3f8fd44fbd)
+
+By default, DigitalOcean allows SSH access to your droplet from any machine, but we want to restrict that to ensure your Wazuh Manager droplet is secure. We’ll create inbound firewall rules to block all traffic except from your local computer. These rules will cover both TCP and UDP traffic. For the source IP, use your public IP address, which you can find at [WhatIsMyIP.com.](https://www.whatismyip.com/)
+
+Once you've created the firewall, navigate to the **Droplets** section in your DigitalOcean dashboard, select your **droplet**, go to **Networking**, and scroll down to the **Firewalls** section. Click **Edit**, then select the firewall you just created. Under **Droplets**, click **Add Droplets**, and select your **Wazuh Manager VM**.
+
+Now, the firewall is applied to your droplet, securing it by restricting access to only your machine.
+
+![image](https://github.com/user-attachments/assets/9a3a99aa-96d2-4a9e-8d9b-9889c77ac0de)
+
+You can access the droplet through the DigitalOcean web interface. To do this, go to your droplet's page, select **Access** from the menu, and then click **Launch Console**.
+
+Personally i had a issue to connect to machine through console on digital ocean, i solved this issue by using PuTTY 
+
+![image](https://github.com/user-attachments/assets/04158d34-d68f-4ea8-86a6-b34ab5a57e61)
+
+Now when we are connected, it is time to install Wazuh. But first we must update and then upgrade our system on this VM
 ```
 sudo apt update
 sudo apt upgrade
