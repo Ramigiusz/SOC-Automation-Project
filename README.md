@@ -144,3 +144,4 @@ Now when we are connected, it is time to install Wazuh. But first we must update
 sudo apt update
 sudo apt upgrade
 ```
+For Wazuh installation follow their guide here https://documentation.wazuh.com/current/installation-guide/wazuh-server/step-by-step.html
