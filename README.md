@@ -149,3 +149,13 @@ After your system is updated, you can proceed with the Wazuh installation by run
 curl -sO https://packages.wazuh.com/4.8/wazuh-install.sh
 sudo bash wazuh-install.sh -a
 ```
+After the installation is complete, take note of the username and password generated for the Wazuh web interface. You’ll need these credentials to log in later.
+
+To finish setting up Wazuh, open your web browser and enter the public IP address of your Wazuh Manager VM. This will take you to the Wazuh web interface where you can complete the installation process and start configuring your security monitoring environment.
+
+![image](https://github.com/user-attachments/assets/70efea8e-8630-490f-94d5-48a742afb75d)
+
+
+For the TheHive server, follow the same process as you did for the Wazuh Manager droplet. This includes creating and configuring the droplet, setting up the firewall, and updating the operating system.
+
+The only difference at this stage is that you'll be installing TheHive instead of Wazuh on this system. TheHive installation instructions:
