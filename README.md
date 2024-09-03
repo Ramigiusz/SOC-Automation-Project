@@ -135,13 +135,17 @@ Now, the firewall is applied to your droplet, securing it by restricting access 
 
 You can access the droplet through the DigitalOcean web interface. To do this, go to your droplet's page, select **Access** from the menu, and then click **Launch Console**.
 
-Personally i had a issue to connect to machine through console on digital ocean, i solved this issue by using PuTTY 
+Personally, I encountered an issue when trying to connect to the droplet through the DigitalOcean console. If you face the same problem, I recommend using PuTTY as an alternative. PuTTY is a free SSH client that works well for connecting to your droplet.
 
 ![image](https://github.com/user-attachments/assets/04158d34-d68f-4ea8-86a6-b34ab5a57e61)
 
-Now when we are connected, it is time to install Wazuh. But first we must update and then upgrade our system on this VM
+Once you're connected to the Wazuh Manager droplet, it's time to install Wazuh. But first, make sure to update and upgrade your system:
 ```
 sudo apt update
 sudo apt upgrade
 ```
-For Wazuh installation follow their guide here https://documentation.wazuh.com/current/installation-guide/wazuh-server/step-by-step.html
+After your system is updated, you can proceed with the Wazuh installation by running the following commands:
+```
+curl -sO https://packages.wazuh.com/4.8/wazuh-install.sh
+sudo bash wazuh-install.sh -a
+```
