@@ -105,6 +105,8 @@ Here’s how to get Sysmon up and running:
 #### 1.5 Install Ubuntu VMs
 To complete this step, we'll install Ubuntu systems for our Wazuh Manager and TheHive. Both TheHive and Wazuh are compatible with Ubuntu 22.04 LTS.
 
+**Wazuh Installation**
+
 ![image](https://github.com/user-attachments/assets/1dc71d67-85b4-43de-9342-e061b1903276)
 
 I'll be using DigitalOcean's cloud services for both virtual machines to conserve local computer resources. You can choose any cloud provider or create additional VMs on your local machine. I opted for DigitalOcean because they offer a free $200 credit, which should be sufficient to complete our project without incurring any costs.
@@ -155,7 +157,57 @@ To finish setting up Wazuh, open your web browser and enter the public IP addres
 
 ![image](https://github.com/user-attachments/assets/70efea8e-8630-490f-94d5-48a742afb75d)
 
+**TheHive Installation**
 
-For the TheHive server, follow the same process as you did for the Wazuh Manager droplet. This includes creating and configuring the droplet, setting up the firewall, and updating the operating system.
+For the TheHive server, follow the same process as you did for the Wazuh Manager droplet. This includes creating and configuring the droplet, assigning the firewall, and updating the operating system.
+
+![image](https://github.com/user-attachments/assets/df7c0f40-ab63-49b7-9109-05531c0aa3fe)
 
 The only difference at this stage is that you'll be installing TheHive instead of Wazuh on this system. TheHive installation instructions:
+1. Install dependencies:
+   ```
+   apt install wget gnupg apt-transport-https git ca-certificates ca-certificates-java curl software-properties-common python3-pip lsb-release
+   ```
+2. Install Java:
+    ```
+    wget -qO- https://apt.corretto.aws/corretto.key | sudo gpg --dearmor  -o /usr/share/keyrings/corretto.gpg
+    echo "deb [signed-by=/usr/share/keyrings/corretto.gpg] https://apt.corretto.aws stable main" |  sudo tee -a /etc/apt/sources.list.d/corretto.sources.list
+    sudo apt update
+    sudo apt install java-common java-11-amazon-corretto-jdk
+    echo JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto" | sudo tee -a /etc/environment 
+    export JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto"
+    ```
+3. Install Cassandra:
+   ```
+   wget -qO -  https://downloads.apache.org/cassandra/KEYS | sudo gpg --dearmor  -o /usr/share/keyrings/cassandra-archive.gpg
+   echo "deb [signed-by=/usr/share/keyrings/cassandra-archive.gpg] https://debian.cassandra.apache.org 40x main" |  sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+   sudo apt update
+   sudo apt install cassandra
+   ```
+4. Install ElasticSearch
+    ```
+    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch |  sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+    sudo apt-get install apt-transport-https
+    echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" |  sudo tee /etc/apt/sources.list.d/elastic-7.x.list
+    sudo apt update
+    sudo apt install elasticsearch
+    ```
+    Optionally:
+       Create a jvm.options file under /etc/elasticsearch/jvm.options.d and put the following configurations in that file.
+   ```
+   -Dlog4j2.formatMsgNoLookups=true
+   -Xms2g
+   -Xmx2g
+   ```
+5. Install TheHive
+    ```
+    wget -O- https://archives.strangebee.com/keys/strangebee.gpg | sudo gpg --dearmor -o /usr/share/keyrings/strangebee-archive-keyring.gpg
+    echo 'deb [signed-by=/usr/share/keyrings/strangebee-archive-keyring.gpg] https://deb.strangebee.com thehive-5.2 main' | sudo tee -a /etc/apt/sources.list.d/strangebee.list
+    sudo apt-get update
+    sudo apt-get install -y thehive
+    ```
+For more details you can check TheHive installation guide on their official website https://docs.strangebee.com/thehive/installation/step-by-step-installation-guide/
+   
+Once installed, you can access TheHive on port 9000. The default credentials are:
+- Username: admin@thehive.local
+- Password: secret
