@@ -47,7 +47,7 @@ I recommend selecting "Unattended Installation" if you want to manually install 
 - At least 4 GB of RAM.
 - 2 CPUs.
 - 50 GB of storage.
-This configuration should ensure that the machine runs smoothly.
+This configuration should ensure that the machine runs smoothly, but consider your host PC capabilities.
 
 ![image](https://github.com/user-attachments/assets/2f96a6c8-d1ed-41ea-984f-91790db64f3a)
 
@@ -102,3 +102,16 @@ Here’s how to get Sysmon up and running:
    **Applications and Services -> Microsoft -> Windows -> Sysmon**
     ![image](https://github.com/user-attachments/assets/ddb26fe8-144b-4edd-89fe-8f5960f9afda)
 
+#### 1.5 Install Ubuntu VMs
+Now to finish this step we will install ubuntu systems for our Wazuh Manager and TheHive
+TheHive and Wazuh are compatible with Ubuntu 22.04 LTS.
+We can download Ubuntu ISO from https://ubuntu.com/download/alternative-downloads#other-images-and-mirrors
+Just like we did with the Windows 10 setup, you'll create two new virtual machines in VirtualBox, one for TheHive server and another for the Wazuh Manager.
+
+After installation, make sure to update both Ubuntu systems and install any required dependencies. 
+1. sudo apt update: Refreshes the list of available packages and their versions, but it doesn’t install or upgrade any packages.
+2. sudo apt upgrade: Upgrades all the packages that are currently installed to their latest versions according to the updated package list.
+```
+sudo apt update
+sudo apt upgrade
+```
