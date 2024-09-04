@@ -238,7 +238,7 @@ rm -rf /var/lib/cassandra/*
 ```
 Start cassandra service
 ```
-systencctl start cassandra.service
+systenctl start cassandra.service
 ```
 To check if everything is fine, you can check cassandra status by
 ```
