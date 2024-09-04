@@ -245,4 +245,4 @@ Next we will configure ElasticSearch used for querying data.
 3. Uncomment **node.name**
 4. Uncomment **network.host** and put public ip address of TheHive VM
 5. Uncomment **http.port**, by default ElasticSearch uses port 9200
-6. ElasticSearch requires either **discovery.seed_host**s or **cluster.initial_master_nodes** to be set to start up properly. We will uncomment cluster.initial_master_nodes and remove node-2, leaving only node-1 (or whatever name you set for your node).
+6. ElasticSearch requires either **discovery.seed_host**s or **cluster.initial_master_nodes** to be set to start up properly. We will uncomment cluster.initial_master_nodes and because we work in micro environement we will remove node-2, leaving only node-1 (or whatever name you set for your node).
