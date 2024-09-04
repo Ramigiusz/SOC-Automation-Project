@@ -240,3 +240,7 @@ Start cassandra service
 ```
 systencctl start cassandra.service
 ```
+To check if everything is fine, you can check cassandra status by
+```
+systemctl status cassandra.service
+```
