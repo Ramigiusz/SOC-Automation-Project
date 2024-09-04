@@ -256,7 +256,7 @@ systemctl enable elasticsearch
 ![image](https://github.com/user-attachments/assets/7de2f599-5ec0-40c8-9520-4ace3075ae81)
 
 #### 2.3 TheHive configuration
-Before we actually start configuring TheHive we need to ensure that thehive user and group have has access to the thehive path
+Before we actually start configuring TheHive we need to ensure that thehive user and group have has access to the thehive path, this will allow TheHive to access it's storage directory.
 ```
 ls -la /opt/thp
 ```
@@ -271,3 +271,10 @@ This will change owner of thehive to thehive user and group
 
 ![image](https://github.com/user-attachments/assets/dfc090a1-a8d4-43cd-bb1e-516e18102d3a)
 
+Now it's time to access TheHive configuration file under /etc/thehive/application.conf
+
+![image](https://github.com/user-attachments/assets/29299c67-bca1-49bf-a994-84d747d94a48)
+
+1. Change hostname variables to public ip address of TheHive
+2. Rename cluster-name to the same from Cassandra
+3. Change in application.baseUrl "localhost" to the your VM public IP address
