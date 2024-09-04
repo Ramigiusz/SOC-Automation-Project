@@ -278,3 +278,21 @@ Now it's time to access TheHive configuration file under /etc/thehive/applicatio
 1. Change hostname variables to public ip address of TheHive
 2. Rename cluster-name to the same from Cassandra
 3. Change in application.baseUrl "localhost" to the your VM public IP address
+
+Save changes and enable TheHive
+```
+systemctl start thehive
+systemctl enable thehive
+```
+
+Now we can access our Hive web interface by visiting URL of TheHive. In case of issues check:
+- If Cassandra service is running
+- If ElasticSearch service is running
+- If TheHive is running
+Use in your browser public ip address of VM with port 9000 to access TheHive interface
+
+![image](https://github.com/user-attachments/assets/9340d764-baec-474b-82a1-1af37939c059)
+
+Default credentials are:
+- Login: admin@thehive.local
+- Password: secret
