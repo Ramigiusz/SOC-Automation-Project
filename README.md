@@ -1,5 +1,4 @@
-![image](https://github.com/user-attachments/assets/a08c5bf6-90b5-46a3-95bf-847a7899c243)# SOC Automation Lab
-
+# SOC Automation Lab
 
 ## Project Introduction
 This SOC Automation Lab project is all about setting up a mini Security Operations Center (SOC) at home. Using tools like Wazuh, Shuffle, and TheHive, the goal is to build a SOAR (Security Orchestration, Automation, and Response) system that can automatically detect, analyze, and respond to security threats without needing constant human input. It's a hands-on way to learn how to get different security tools to work together, enrich threat data, and automate responses, making the whole process smoother and more efficient.
@@ -296,3 +295,24 @@ Use in your browser public ip address of VM with port 9000 to access TheHive int
 Default credentials are:
 - Login: admin@thehive.local
 - Password: secret
+
+### 2.Wazuh Configuration
+
+![image](https://github.com/user-attachments/assets/917e4637-0f8d-4411-8a20-644e0afb11b2)
+
+Access Wazuh Dashboard with credentials you stored earlier. 
+
+![image](https://github.com/user-attachments/assets/cd3bf228-a7b1-42b7-b3b2-829480e00df7)
+
+In Dashboard click **add agen**t and fill up installation process
+1. Select Windows Machine
+2. For server address put public ip address of Wazuh Manager
+3. Assign agent name
+4. Copy provided command and execute in on Windows 10 Virtual Machine
+5. Start the agent on Win10 VM
+
+![image](https://github.com/user-attachments/assets/19c9d0eb-cdce-4230-bc41-acbc22d38bf9)
+
+![image](https://github.com/user-attachments/assets/089f2d02-f7dc-40b3-b169-8633afe4383b)
+
+Our WazuhAgent and Manager connected successfully, good job!
