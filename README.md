@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/fa379f24-b0fa-488e-bbba-ae8720264568)# SOC Automation Lab
+# SOC Automation Lab
 
 
 ## Project Introduction
@@ -208,39 +208,41 @@ The only difference at this stage is that you'll be installing TheHive instead o
     ```
 For more details you can check TheHive installation guide on their official website https://docs.strangebee.com/thehive/installation/step-by-step-installation-guide/
 
-### TheHive and Wazuh Manager Configuration
-After installation we will start configuring our Wazuh and TheHive.
+### 2.TheHive Configuration
+We installed alot of services for our TheHive, now we need to configure it.
 
-#### TheHive Configuration
-We will start with editing Cassandra configuration under **/etc/cassandra/cassandra.yaml**
+#### 2.1 Cassandra Configuration
+We'll start by configuring Cassandra, which is used for storing NoSQL data.
+1. Edit the Configuration File: Open the Cassandra configuration file located at /etc/cassandra/cassandra.yaml.
 
 ![image](https://github.com/user-attachments/assets/1eb042e5-c8a6-47e6-bf40-a940855fbcaa)
 
-Find **listen_address** variable and then change it's value to public ip address of TheHive VM
+2. Find **listen_address** variable and then set the address to the public IP address of your TheHive server
 
 ![image](https://github.com/user-attachments/assets/9251032c-944d-42fe-bda7-f70ec5c5fc16)
 
-Next change value of **rpc_address** to public ip address again
+3. Update the rpc_address: Set the rpc_address to the public IP address of your TheHive server.
 
 ![image](https://github.com/user-attachments/assets/6e18520a-dc37-48a9-81f1-7eecbad3541e)
 
-Last configuration is **seed_provider** change parameter of seeds to public ip of TheHive
+3. Configure the Seed Provider: Locate the seed_provider section and update the seeds parameter with the public IP address of your TheHive server.
 
 ![image](https://github.com/user-attachments/assets/dd283e63-b84e-4725-91d8-f841ec056155)
 
-Save the configuration and then stop the cassandra service
-```
-systemctl stop cassandra.service
-```
-Then because of installing TheHive from their package, we must remove old files
-```
-rm -rf /var/lib/cassandra/*
-```
-Start cassandra service
-```
-systenctl start cassandra.service
-```
-To check if everything is fine, you can check cassandra status by
-```
-systemctl status cassandra.service
-```
+4. Save and Stop the Cassandra Service: After making these changes, save the file and stop the Cassandra service. This will prepare it for a clean start. ```systemctl stop cassandra.service```
+5. Cleanup Old Files: Since TheHive was installed from its package, you may need to remove any old or conflicting files that could interfere with the new setup. ```rm -rf /var/lib/cassandra/*```
+5. Start the Cassandra Service: Once the cleanup is complete, restart the Cassandra service to apply the changes. ```systemctl start cassandra.service```
+6. Verify the Configuration: To ensure everything is working correctly, check the status of the Cassandra service: ```systemctl status cassandra.service```
+
+
+#### 2.2 ElasticSearch Configuration
+Next we will configure ElasticSearch used for querying data.
+1. Edit the Configuration File: Open the ElasticSearch configuration file located at /etc/elasticsearch/elasticsearch.yml.
+
+![image](https://github.com/user-attachments/assets/d97b7bf9-dec5-49c4-a3ae-f61de1cf1753)
+
+2. Uncomment **cluster.name** and name it ex. thehive
+3. Uncomment **node.name**
+4. Uncomment **network.host** and put public ip address of TheHive VM
+5. Uncomment **http.port**, by default ElasticSearch uses port 9200
+6. ElasticSearch requires either **discovery.seed_host**s or **cluster.initial_master_nodes** to be set to start up properly. We will uncomment cluster.initial_master_nodes and remove node-2, leaving only node-1 (or whatever name you set for your node).
