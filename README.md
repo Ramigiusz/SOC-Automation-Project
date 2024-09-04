@@ -1,4 +1,4 @@
-# SOC Automation Lab
+![image](https://github.com/user-attachments/assets/a08c5bf6-90b5-46a3-95bf-847a7899c243)# SOC Automation Lab
 
 
 ## Project Introduction
@@ -246,3 +246,28 @@ Next we will configure ElasticSearch used for querying data.
 4. Uncomment **network.host** and put public ip address of TheHive VM
 5. Uncomment **http.port**, by default ElasticSearch uses port 9200
 6. ElasticSearch requires either **discovery.seed_host**s or **cluster.initial_master_nodes** to be set to start up properly. We will uncomment cluster.initial_master_nodes and because we work in micro environement we will remove node-2, leaving only node-1 (or whatever name you set for your node).
+
+Save changes and enable elasticsearch
+```
+systemctl start elasticsearch
+systemctl enable elasticsearch
+```
+
+![image](https://github.com/user-attachments/assets/7de2f599-5ec0-40c8-9520-4ace3075ae81)
+
+#### 2.3 TheHive configuration
+Before we actually start configuring TheHive we need to ensure that thehive user and group have has access to the thehive path
+```
+ls -la /opt/thp
+```
+
+![image](https://github.com/user-attachments/assets/5a1b37ab-a6fd-4a69-a2ea-fa8d481eb5ac)
+
+As you see, root user and group have access to thehive, we want to change this.
+```
+chown -R thehive:thehive /opt/thp
+```
+This will change owner of thehive to thehive user and group
+
+![image](https://github.com/user-attachments/assets/dfc090a1-a8d4-43cd-bb1e-516e18102d3a)
+
