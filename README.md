@@ -1,4 +1,4 @@
-# SOC Automation Lab
+![image](https://github.com/user-attachments/assets/fa379f24-b0fa-488e-bbba-ae8720264568)# SOC Automation Lab
 
 
 ## Project Introduction
@@ -207,7 +207,36 @@ The only difference at this stage is that you'll be installing TheHive instead o
     sudo apt-get install -y thehive
     ```
 For more details you can check TheHive installation guide on their official website https://docs.strangebee.com/thehive/installation/step-by-step-installation-guide/
-   
-Once installed, you can access TheHive on port 9000. The default credentials are:
-- Username: admin@thehive.local
-- Password: secret
+
+### TheHive and Wazuh Manager Configuration
+After installation we will start configuring our Wazuh and TheHive.
+
+#### TheHive Configuration
+We will start with editing Cassandra configuration under **/etc/cassandra/cassandra.yaml**
+
+![image](https://github.com/user-attachments/assets/1eb042e5-c8a6-47e6-bf40-a940855fbcaa)
+
+Find **listen_address** variable and then change it's value to public ip address of TheHive VM
+
+![image](https://github.com/user-attachments/assets/9251032c-944d-42fe-bda7-f70ec5c5fc16)
+
+Next change value of **rpc_address** to public ip address again
+
+![image](https://github.com/user-attachments/assets/6e18520a-dc37-48a9-81f1-7eecbad3541e)
+
+Last configuration is **seed_provider** change parameter of seeds to public ip of TheHive
+
+![image](https://github.com/user-attachments/assets/dd283e63-b84e-4725-91d8-f841ec056155)
+
+Save the configuration and then stop the cassandra service
+```
+systemctl stop cassandra.service
+```
+Then because of installing TheHive from their package, we must remove old files
+```
+rm -rf /var/lib/cassandra/*
+```
+Start cassandra service
+```
+systencctl start cassandra.service
+```
