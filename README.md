@@ -298,6 +298,8 @@ Default credentials are:
 
 ### 2.Wazuh Configuration
 
+#### 1. Connect Win10 Machine with Wazuh Manager
+
 ![image](https://github.com/user-attachments/assets/917e4637-0f8d-4411-8a20-644e0afb11b2)
 
 Access Wazuh Dashboard with credentials you stored earlier. 
@@ -316,3 +318,30 @@ In Dashboard click **add agen**t and fill up installation process
 ![image](https://github.com/user-attachments/assets/089f2d02-f7dc-40b3-b169-8633afe4383b)
 
 Our WazuhAgent and Manager connected successfully, good job!
+
+#### 2. Configuring Sysmon Log Ingestion for Wazuh
+Now that the Wazuh agent on your Windows 10 machine and the Wazuh Manager are connected, the next step is to configure the agent's telemetry and log ingestion to be sent to the Wazuh Manager.
+
+Access the Configuration File: On your Windows 10 machine, navigate to: 
+`This PC -> Local Disk (C:) -> Program Files (x86) -> ossec-agent -> ossec.conf`
+
+The ossec.conf file is the primary configuration file for the Wazuh agent. Open the ossec.conf file with Administrative Privileges by right-clicking on the file and selecting **Run as administrator**. You can begin configuring the agent to send the required telemetry data and logs to the Wazuh Manager for analysis.
+
+![image](https://github.com/user-attachments/assets/2e8d5eca-2541-441b-86be-164285a241ec)
+
+In the Log Analysis section of the ossec.conf file, we can see the general syntax Wazuh uses to define log sources. Now, we'll configure Wazuh to ingest Sysmon logs specifically.
+Before making any changes, it's always a good idea to create a backup of the `ossec.conf` file in case something goes wrong.
+
+Next, we need to tell Wazuh where to find the Sysmon logs. To do this:
+- Open Event Viewer on the Windows 10 machine.
+- Navigate to Applications and Services Logs -> Microsoft -> Windows -> Sysmon.
+- Right-click on Operational, and select Properties.
+- Look for the Full Name field. The value will be: Microsoft-Windows-Sysmon/Operational. This is the channel we need to configure in Wazuh for Sysmon logs.
+- Now that we have the Sysmon log channel, we can configure Wazuh to ingest it.
+
+![image](https://github.com/user-attachments/assets/8b1a6dd8-0668-4f89-bca0-5e2119285896)
+
+Copy the relevant portion of the Log Analysis section in the ossec.conf file.
+Update it to target the Sysmon log channel.
+
+For this project, we only want to ingest Sysmon logs and not the default logs like Application, Security, and System logs. Normally, you'd want to keep these for a comprehensive analysis, but for the sake of this project, you can remove or comment out these sections from `ossec.conf`.
