@@ -345,3 +345,5 @@ Copy the relevant portion of the Log Analysis section in the ossec.conf file.
 Update it to target the Sysmon log channel.
 
 For this project, we only want to ingest Sysmon logs and not the default logs like Application, Security, and System logs. Normally, you'd want to keep these for a comprehensive analysis, but for the sake of this project, you can remove or comment out these sections from `ossec.conf`.
+
+Final step is to restart Wazuh. Headover to Services -> Wazuh -> Right Click and then Restart. Remember, it's essential to restart the service every time you modify its configuration to ensure the changes take effect.
