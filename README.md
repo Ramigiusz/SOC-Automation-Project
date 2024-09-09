@@ -453,5 +453,5 @@ Let's test our rule against Mimikatz again. I will rename it to `Mimicool` this 
 
 ![image](https://github.com/user-attachments/assets/1e8f2a95-4214-48f9-b784-a8cb78852dc3)
 
-We catched attacker attempt to use mimikatz, congratulations!
+We caught attempt to use mimikatz on our Wazuh agent, congratulations!
 
