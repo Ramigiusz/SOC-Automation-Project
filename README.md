@@ -446,3 +446,12 @@ Click on custom rules and edit local_rules. Paste copied rule below one already 
 - Change id to 100002, custom rules start from 100000
 - Change Field name to win.eventdata.originalFileName and then type which is basically regex so it will catch mimikatz.exe
 - Set MITRE as T1003 which means Credential Dumping
+
+Let's test our rule against Mimikatz again. I will rename it to `Mimicool` this will prove that we can now detect mimikatz even if it's name is changed by attacker.
+
+![image](https://github.com/user-attachments/assets/81a6eb17-dc91-463f-955d-67bf112b1401)
+
+![image](https://github.com/user-attachments/assets/1e8f2a95-4214-48f9-b784-a8cb78852dc3)
+
+
+
