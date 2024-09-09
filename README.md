@@ -347,3 +347,102 @@ Update it to target the Sysmon log channel.
 For this project, we only want to ingest Sysmon logs and not the default logs like Application, Security, and System logs. Normally, you'd want to keep these for a comprehensive analysis, but for the sake of this project, you can remove or comment out these sections from `ossec.conf`.
 
 Final step is to restart Wazuh. Headover to Services -> Wazuh -> Right Click and then Restart. Remember, it's essential to restart the service every time you modify its configuration to ensure the changes take effect.
+
+![image](https://github.com/user-attachments/assets/73f56e01-7b47-4b32-aa8d-ac2ef007a9c1)
+
+Now we can see Sysmon Events in our Wazuh Dashboard.
+
+#### 3. Mimikatz Test
+Mimikatz is a well-known exploit used on Microsoft Windows to extract passwords stored in memory, typically deployed by attackers or red teamers after compromising a system. In this project, we will configure our Wazuh setup to detect Mimikatz activity on the endpoint (our Windows 10 agent) to catch any potential attackers.
+
+![image](https://github.com/user-attachments/assets/23e24ae7-0ea8-462a-8a9b-37c56f5d6321)
+
+By monitoring and analyzing system logs through Wazuh, we can identify behaviors or patterns related to Mimikatz and receive alerts when such activity is detected. 
+
+Mimikatz: https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20220919
+
+Before downloading Mimikatz for testing, we need to prevent Windows Defender from blocking it. Since Mimikatz is a widely recognized and flagged tool due to its malicious use cases, it will almost certainly be detected and removed by Windows Defender.
+
+To exclude the download path for Mimikatz:
+1. Open Windows Security: Go to Start and type Windows Security.
+2. Navigate to Virus & Threat Protection: Click on Virus & threat protection from the Windows Security dashboard.
+3. Manage Settings: Under Virus & threat protection settings, click on Manage settings.
+4. Add an Exclusion:
+    - Scroll down to Exclusions and click **Add or remove exclusions**.
+    - Select **Add an exclusion**, then choose **Folder**.
+    - Select **Downloads** folder
+
+![image](https://github.com/user-attachments/assets/468ddb8d-cda1-4472-99f8-33be21fc6eb1)
+
+Extract Mimikatz in the excluded folder to ensure that Windows won't delete any of the files. Open up the Powershell as  administrator and move to Mimikatz directory
+
+![image](https://github.com/user-attachments/assets/4c77a002-06ed-4b62-8234-d41c3cf6b19d)
+
+Execute mimikatz.exe
+`.\mimikatz.exe`
+
+![image](https://github.com/user-attachments/assets/7b50b86a-7ebb-4ca4-8621-58eabba74175)
+
+Head over to the Wazuh Manager web interface and check the logs for any suspicious activity related to Mimikatz. Wazuh may detect unusual behaviors, such as credential dumping or process manipulation.
+
+![image](https://github.com/user-attachments/assets/de7c1ec5-c858-40b6-9b38-21dbe428e1b9)
+
+It may not specifically identify the process as Mimikatz at first glance.
+
+![image](https://github.com/user-attachments/assets/42009caf-b6bf-4168-a702-0ac2d86a0c4c)
+
+To improve detection and explicitly flag Mimikatz execution in the logs, we will need to modify Wazuh's configuration. Wazuh uses rules and decoders to analyze log data, so we will create or modify a custom rule that will explicitly detect Mimikatz.
+
+#### 4. Modify Wazuh Configuration
+Go to the Wazuh Manager VM console and first make a backup of configuration file ```cp var/ossec/etc/ossec.conf ~/ossec-backup.conf``` then open `ossec.conf file` there change `<logall>` and `<logall_json>` to **yes**
+
+![image](https://github.com/user-attachments/assets/358335aa-9196-4214-b1df-73e545172dcd)
+
+After this save and then restart Wazuh by ```systemctl restart wazuh-manager.service```. 
+This will force Wazuh to put all the logs to the archives, we can find them in `/var/ossec/logs/archives/`
+
+![image](https://github.com/user-attachments/assets/ca2ad18b-6868-4000-96dd-ec77e97f9cec)
+
+In order to make Wazuh ingest these logs we must change configuration in filebeat `nano /etc/filebeat/filebeat.yml` change archives enabled to **True** then restart filebeat service
+
+![image](https://github.com/user-attachments/assets/31795229-5bd1-49db-934a-be64c4e2cb41)
+
+Headover to Wazuh Web Interface, we will create new indexes for our archives. Dashboards Management -> Index patterns
+
+![image](https://github.com/user-attachments/assets/7e2df678-fcaf-437c-a4bc-64cf2959a81c)
+
+![image](https://github.com/user-attachments/assets/4836a385-c452-4780-abab-bdddcc90b72c)
+
+![image](https://github.com/user-attachments/assets/f2207a65-787c-4c1a-8b70-64a5bceaa898)
+
+Now go to Discover and select archives as index to search through logs
+
+![image](https://github.com/user-attachments/assets/4be42dda-3b2e-4574-aa5c-81ecf90ff9b1)
+
+By default, Wazuh only displays logs that trigger predefined rules. However, we’ve configured it to log everything, allowing us to capture and analyze the execution of mimikatz.exe. Now that we can see Mimikatz activity, we can create a custom alert specifically for its execution.
+
+#### 5. Custom Wazuh rule creation
+When creating a detection rule, it’s more reliable to use data.win.eventdata.originalFileName rather than data.win.eventdata.image
+.The reason for this is that attackers often rename files like Mimikatz.exe to Mimikats.exe to evade detection. By focusing on the process name rather than the full command, we can still detect Mimikatz activity even if the executable is renamed.
+
+![image](https://github.com/user-attachments/assets/dd2b7cfb-6d76-4faa-953b-109065ca522d)
+
+Headover to rules, there we will create our custom rule. Click on **manage rule files**
+
+![image](https://github.com/user-attachments/assets/1b1d6862-6c0d-4661-90ef-43c0dff471c4)
+
+We are interested in sysmon events id 1. 
+
+![image](https://github.com/user-attachments/assets/2e4214f0-6d6b-42d9-b025-3612e40bbfd6)
+
+We will copy one of these to build custom rule to detect mimikatz
+
+![image](https://github.com/user-attachments/assets/417f6724-dc8e-4ca8-8f16-364eab4baf40)
+
+Click on custom rules and edit local_rules. Paste copied rule below one already existing.
+
+![image](https://github.com/user-attachments/assets/45a1738c-7ee1-4dd2-a5ad-4c6e4cd02b0b)
+
+- Change id to 100002, custom rules start from 100000
+- Change Field name to win.eventdata.originalFileName and then type which is basically regex so it will catch mimikatz.exe
+- Set MITRE as T1003 which means Credential Dumping
