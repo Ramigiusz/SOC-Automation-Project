@@ -157,6 +157,7 @@ To finish setting up Wazuh, open your web browser and enter the public IP addres
 ![image](https://github.com/user-attachments/assets/70efea8e-8630-490f-94d5-48a742afb75d)
 
 **TheHive Installation**
+TheHive is a scalable, open source and free Security Incident Response Platform, tightly integrated with MISP (Malware Information Sharing Platform), designed to make life easier for SOCs, CSIRTs, CERTs and any information security practitioner dealing with security incidents that need to be investigated and acted upon.
 
 For the TheHive server, follow the same process as you did for the Wazuh Manager droplet. This includes creating and configuring the droplet, assigning the firewall, and updating the operating system.
 
@@ -255,6 +256,7 @@ systemctl enable elasticsearch
 ![image](https://github.com/user-attachments/assets/7de2f599-5ec0-40c8-9520-4ace3075ae81)
 
 #### 2.3 TheHive configuration
+
 Before we actually start configuring TheHive we need to ensure that thehive user and group have has access to the thehive path, this will allow TheHive to access it's storage directory.
 ```
 ls -la /opt/thp
@@ -296,11 +298,7 @@ Default credentials are:
 - Login: admin@thehive.local
 - Password: secret
 
-### 2.Wazuh Configuration
-**What is Wazuh?**
-
-![image](https://github.com/user-attachments/assets/c498309f-4c36-479c-95b2-32560a57cc92)
-
+### 2 Wazuh Configuration
 Wazuh is a free and open source platform used for threat prevention, detection, and response. It is capable of protecting workloads across on-premises, virtualized, containerized, and cloud-based environments. It unifies XDR and SIEM protection for endpoints and cloud workloads.
 
 #### 1. Connect Win10 Machine with Wazuh Manager
