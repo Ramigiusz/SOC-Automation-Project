@@ -297,6 +297,11 @@ Default credentials are:
 - Password: secret
 
 ### 2.Wazuh Configuration
+**What is Wazuh?**
+
+![image](https://github.com/user-attachments/assets/c498309f-4c36-479c-95b2-32560a57cc92)
+
+Wazuh is a free and open source platform used for threat prevention, detection, and response. It is capable of protecting workloads across on-premises, virtualized, containerized, and cloud-based environments. It unifies XDR and SIEM protection for endpoints and cloud workloads.
 
 #### 1. Connect Win10 Machine with Wazuh Manager
 
@@ -456,3 +461,9 @@ Let's test our rule against Mimikatz again. I will rename it to `Mimicool` this 
 We caught attempt to use mimikatz on our Wazuh agent, congratulations!
 
 ### 4. Shuffle Configuration
+Final objective which will finalise this project with fully functional lab is to connect Shuffle which will send alerts to TheHive and email to SOC Analyst with response question
+What is Shuffle?
+
+![image](https://github.com/user-attachments/assets/82e2e121-9956-45db-b73d-bb9d08b05543)
+
+Shuffle is a no-code automation platform (SOAR) that lets you automate your processes. It is  focused on making automation accessible to everyone, using AI + a simple drag-and-drop interface (with code editing for advanced users). https://shuffler.io/
