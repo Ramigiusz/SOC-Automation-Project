@@ -455,4 +455,4 @@ Let's test our rule against Mimikatz again. I will rename it to `Mimicool` this 
 
 We caught attempt to use mimikatz on our Wazuh agent, congratulations!
 
-### 4.Shuffle Configuration
+### 4. Shuffle Configuration
