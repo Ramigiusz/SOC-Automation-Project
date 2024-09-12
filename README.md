@@ -514,7 +514,6 @@ Now that everything is set up, let’s outline how we can expand the Shuffle wor
     - The email serves as a trigger for the analyst to start investigating the alert.
   
 #### 5.1 Extracting Hash Value
-When you see details of execution argument, we can see that Shuffle copies all cool data from the Wazuh
 
 ![image](https://github.com/user-attachments/assets/f42a5295-3a4a-434c-abbf-0a9810c7f4cc)
 
@@ -526,3 +525,38 @@ For Regex itself use `SHA1=([A-Fa-f0-9]{40})`. Now to test this, just save workf
 As you see, we just copied hash value. When i copy it to Virustotal it successfuly finds Mimikatz.exe. This means our regex capture is correct.
 
 ![image](https://github.com/user-attachments/assets/85534077-6cf5-41ca-9919-a17be3de2b0b)
+
+To finalise this step rename Shuffle Tools icon to "SHA_Regex"
+
+#### 5.2 Checks Reputation Score with VirusTotal
+Next step is to send this hash to VirusTotal API to automatically extract reputation score of this hash value. To utilise their API we must create account in VirusTotal. Then copy our API Key and headover to the Shuffle. Add VirusTotal to workflow by clicking "Apps", searching for VirusTotal, activating it and then draging it to the dashboard
+
+
+![image](https://github.com/user-attachments/assets/639eacde-502d-4422-9de7-0cf6faf5c6dd)
+
+- Insert your API Key or authenticate with your VirusTotal.
+- Select Hash Report action
+- For ID select our SHA Regex list
+
+![image](https://github.com/user-attachments/assets/56eb3833-e1e2-402e-910e-bcb6d3ed6960)
+
+Again to test this, just save workflow and rerun it by clicking "Rerun Workflow" in "Show Executions"
+
+![image](https://github.com/user-attachments/assets/549b295f-6ca6-4b0b-9003-4247c1d729ea)
+![image](https://github.com/user-attachments/assets/501806a0-85be-45c3-9c8b-4e11bf2ca695)
+
+#### 5.2 Sent details to TheHive
+Similarly to VirusTotal, add TheHive app to the Workflow, to authenticate us, we will get API key from the TheHive Dashboard. Log in to TheHive web interface and copy this API key. But first let's create new organization and user. 
+
+Click on + button in TheHive dashboard to create new organization.
+
+![image](https://github.com/user-attachments/assets/8ca2efa7-bebf-4475-a8a5-9a36e885c525)
+
+Then click on the organization to add users. We will create 2 users
+- Normal User, with analyst profile
+- Service User with analyst profile
+
+![image](https://github.com/user-attachments/assets/e78ffb8f-65d1-41e6-8cc2-1e448749161e)
+
+**Note: In this demo we are using default profiles, in real environement we should create new profiles with principle of least privileges, that allows to perform all neccessary tasks with minimal permissions.**
+
