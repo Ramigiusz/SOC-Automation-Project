@@ -17,6 +17,9 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
 - TheHive for managing incidents and helping the team collaborate.
 - Sysmon for detailed system monitoring on the Windows Wazuh Agent, capturing key event data.
 
+## Table of contents
+- [Install Applications & Virtual Machines](#1-install-applications--virtual-machines)
+- [TheHive Configuration](#23-thehive-configuration)
 ## Steps
 
 ### 1. Install Applications & Virtual Machines
@@ -26,6 +29,9 @@ By the end of this step, we will have:
 - A Windows 10 machine with Sysmon installed.
 - A Wazuh Server.
 - A TheHive Server.
+
+#### 2.3 TheHive configuration
+
 #### 1.1 VirtualBox Installation
 For virtualization, we will use VirtualBox software, which will provide us with the environment needed to deploy virtual machines. You can download and install VirtualBox from their official website https://www.virtualbox.org/wiki/Downloads
 
@@ -528,7 +534,7 @@ As you see, we just copied hash value. When i copy it to Virustotal it successfu
 
 To finalise this step rename Shuffle Tools icon to "SHA_Regex"
 
-#### 5.2 Checks Reputation Score with VirusTotal
+#### 5.2 Check Reputation Score with VirusTotal
 Next step is to send this hash to VirusTotal API to automatically extract reputation score of this hash value. To utilise their API we must create account in VirusTotal. Then copy our API Key and headover to the Shuffle. Add VirusTotal to workflow by clicking "Apps", searching for VirusTotal, activating it and then draging it to the dashboard
 
 
@@ -546,7 +552,9 @@ Again to test this, just save workflow and rerun it by clicking "Rerun Workflow"
 ![image](https://github.com/user-attachments/assets/501806a0-85be-45c3-9c8b-4e11bf2ca695)
 
 #### 5.2 Sent details to TheHive
-Similarly to VirusTotal, add TheHive app to the Workflow, to authenticate us, we will get API key from the TheHive Dashboard. Log in to TheHive web interface and copy this API key. But first let's create new organization and user. 
+Similarly to VirusTotal, add TheHive app to the Workflow and connect VirusTotal to TheHive, to authenticate us, we will get API key from the TheHive Dashboard. Log in to TheHive web interface and copy this API key. But first let's create new organization and user. 
+
+![image](https://github.com/user-attachments/assets/a9a2cb6e-4473-46a8-a722-1c8a71c3f95e)
 
 Click on + button in TheHive dashboard to create new organization.
 
@@ -560,3 +568,53 @@ Then click on the organization to add users. We will create 2 users
 
 **Note: In this demo we are using default profiles, in real environement we should create new profiles with principle of least privileges, that allows to perform all neccessary tasks with minimal permissions.**
 
+For our normal user account we want to create password, click on preview and scroll down to create new strong password.
+For service user we want to create API key.
+
+Now log in using normal user account. You will see different dashboard with cases and alerts.
+
+![image](https://github.com/user-attachments/assets/676f42cc-0da4-4fe7-9abc-8ae4b82b4ed3)
+
+Return to the Shuffle and authenticate TheHive app using API key. For url put url of your TheHive with port number
+
+![image](https://github.com/user-attachments/assets/7a2b1b7d-edbe-4521-9656-9436dfdbf349)
+
+Now under actions we want to create alert.
+
+Fill up the body as you wish, this contains information for our alert. I did this like this:
+
+![image](https://github.com/user-attachments/assets/a19fa1c8-f743-485c-8cc9-0bbf1f642a75)
+
+
+For TheHive to receive action about creating alert we must edit it's firewall to allow coming traffic through port 9000. To inbound Rules add rule:
+
+![image](https://github.com/user-attachments/assets/fa7a0735-d3e9-48a8-81d3-5dc49b479bf2)
+
+Now we can rerun the workflow!
+
+![image](https://github.com/user-attachments/assets/59a9409c-a03f-4872-9b96-2af99e859d3b)
+![image](https://github.com/user-attachments/assets/eaa98ea3-c295-4dc6-8c3b-478d74a11aa3)
+
+Success! Shuffle automatically created alert in TheHive for further investigation
+
+#### 6. Sent email to the Analyst
+Next step is to send email to the security analyst containing relevant information.
+
+Drag in and drop email application and connect VirusTotal to Email
+- You can set as recipents your active email, i will personally use SquareX functionality to create temporary, disposable email address.
+- Fill subject and body with valuable data for the analyst.
+Rerun the workflow and done! We received email that alerts us about potential attacker.
+
+![image](https://github.com/user-attachments/assets/f28721d6-6e6c-4b1a-a129-a151dae71459)
+
+### 7. Bonus - Block the IP conducting SSH brute force attempts.
+1. Set Up Ubuntu Machine
+    - Use the lowest possible specifications with a strong SSH password.
+    - Allow ALL inbound traffic, which will attract SSH brute force attempts.
+2. Install Wazuh Agent on Ubuntu
+3. Forward All Level 5 Alerts to Shuffle
+4. Enrich the IP Address with VirusTotal Data
+5. Notify the Analyst via Email
+    - Include alert details and ask whether to block the source IP.
+6. Create an Alert in TheHive
+7. Automatically Block the Source IP if the Analyst Confirms
