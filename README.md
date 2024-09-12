@@ -494,3 +494,35 @@ Check if the Webhook trigger is active. If not, click the "Start" button to acti
 ![image](https://github.com/user-attachments/assets/bd6ec38c-baa2-4934-adda-39d0c075441f)
 
 If everything is set up correctly, you should see the alert for the Mimikatz execution in Shuffle, confirming that the webhook integration works.
+
+### 5. Building Workflow
+Now that everything is set up, let’s outline how we can expand the Shuffle workflow for our project to fully automate the alerting and response process
+1. Mimikatz Alert Sent to Shuffle:
+    - Wazuh detects the Mimikatz execution and triggers an alert.
+    - The alert is sent to Shuffle using the Webhook we previously configured.
+2. Shuffle Receives Mimikatz Alert and Extracts SHA256 Hash:
+    - Once Shuffle receives the alert, it extracts the SHA256 hash of the Mimikatz executable from the Wazuh alert data.
+    - The workflow can parse the incoming JSON alert and pull out relevant fields, including the file hash.
+3. Shuffle Checks Reputation Score with VirusTotal:
+    - Using the extracted SHA256 hash, Shuffle sends a request to VirusTotal API to check the reputation of the file.
+    - VirusTotal responds with a reputation score, detailing whether the file is known to be malicious, along with other metadata.
+4. Send Details to TheHive to Create Alert:
+    - Based on the VirusTotal response and the original Wazuh alert, Shuffle sends all relevant details (such as the file hash, reputation score, and alert metadata) to TheHive.
+    - TheHive automatically creates a new alert or case to begin the investigation process.
+5. Send Email to SOC Analyst:
+    - Shuffle sends an email notification to a SOC Analyst with the alert details, including the VirusTotal results and a link to TheHive case.
+    - The email serves as a trigger for the analyst to start investigating the alert.
+  
+#### 5.1 Extracting Hash Value
+When you see details of execution argument, we can see that Shuffle copies all cool data from the Wazuh
+
+![image](https://github.com/user-attachments/assets/f42a5295-3a4a-434c-abbf-0a9810c7f4cc)
+
+To extract hash value with format "SHA=XXX", change Action from "Repeat back to me" to "Regex Capture Group". Click on + button and select "execution argument" then find hash value
+For Regex itself use `SHA1=([A-Fa-f0-9]{40})`. Now to test this, just save workflow and rerun it by clicking "Rerun Workflow" in "Show Executions"
+
+![image](https://github.com/user-attachments/assets/6f644b6a-11d6-460d-9d53-2c4e3decd056)
+
+As you see, we just copied hash value. When i copy it to Virustotal it successfuly finds Mimikatz.exe. This means our regex capture is correct.
+
+![image](https://github.com/user-attachments/assets/85534077-6cf5-41ca-9919-a17be3de2b0b)
