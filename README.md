@@ -465,3 +465,25 @@ What is Shuffle?
 ![image](https://github.com/user-attachments/assets/82e2e121-9956-45db-b73d-bb9d08b05543)
 
 Shuffle is a no-code automation platform (SOAR) that lets you automate your processes. It is  focused on making automation accessible to everyone, using AI + a simple drag-and-drop interface (with code editing for advanced users). https://shuffler.io/
+
+If you haven't already, head to Shuffle, create a new account, or log in if you already have one. Then navigate to the Workflows section and click on Create New Workflow. This will bring up the workflow editor, where you’ll design the automation. 
+- Click on the Triggers section on the left panel and drag the Webhook trigger into your workflow canvas.
+- Name the webhook trigger, for example, "Wazuh-Alerts".
+- The most crucial part here is to copy the Webhook URL. You'll need this URL later to add it to the Wazuh Manager’s ossec.conf file, enabling Wazuh to send alerts to Shuffle.
+- In your workflow, after setting up the webhook trigger, check on Shuffle Tools to see what action follows.
+- Check if action is set on "Repeat back to me". Change the call to `$exec`
+
+Now, log into your Wazuh Manager and open the ossec.conf file on the Wazuh Manager. We will add the webhook URL from Shuffle into the configuration to allow Wazuh to send its alerts directly to the Shuffle workflow. Paste integration tag to ossec.conf:
+```
+<integration>
+  <name>shuffle</name>
+  <hook_url>http://<YOUR_SHUFFLE_URL>/api/v1/hooks/<HOOK_ID></hook_url>
+  <level>3</level>
+  <alert_format>json</alert_format>
+</integration>
+```
+We need to make some changes
+- Change `http://<YOUR_SHUFFLE_URL>/api/v1/hooks/<HOOK_ID>` to your webhook url from Shuffle
+- Change `<level>` to `<alert_id>` and put id number of custom rule in Wazuh. We want to track our custom rule for mimikatz activity from previous steps
+
+![image](https://github.com/user-attachments/assets/e9eb17f6-4e18-4501-bf3a-1a0a6a54c3bc)
