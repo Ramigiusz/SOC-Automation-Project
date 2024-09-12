@@ -17,7 +17,7 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
 - TheHive for managing incidents and helping the team collaborate.
 - Sysmon for detailed system monitoring on the Windows Wazuh Agent, capturing key event data.
 
-## Table of contents
+## Table of contents ############# WORK IN PROGRESS!!
 - [Install Applications & Virtual Machines](#1-install-applications--virtual-machines)
 - [TheHive Configuration](#23-thehive-configuration)
 ## Steps
@@ -29,8 +29,6 @@ By the end of this step, we will have:
 - A Windows 10 machine with Sysmon installed.
 - A Wazuh Server.
 - A TheHive Server.
-
-#### 2.3 TheHive configuration
 
 #### 1.1 VirtualBox Installation
 For virtualization, we will use VirtualBox software, which will provide us with the environment needed to deploy virtual machines. You can download and install VirtualBox from their official website https://www.virtualbox.org/wiki/Downloads
