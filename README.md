@@ -487,3 +487,7 @@ We need to make some changes
 - Change `<level>` to `<alert_id>` and put id number of custom rule in Wazuh. We want to track our custom rule for mimikatz activity from previous steps
 
 ![image](https://github.com/user-attachments/assets/e9eb17f6-4e18-4501-bf3a-1a0a6a54c3bc)
+
+To test our setup, check if Webhook is active, if not click "start". Then go to the Windows 10 Agent and execute Mimikatz.exe, then headover to Shuffle and click icon of running person "Show Executions", see if your Shuffle catched mimikatz execution
+
+![image](https://github.com/user-attachments/assets/bd6ec38c-baa2-4934-adda-39d0c075441f)
