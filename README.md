@@ -488,6 +488,9 @@ We need to make some changes
 
 ![image](https://github.com/user-attachments/assets/e9eb17f6-4e18-4501-bf3a-1a0a6a54c3bc)
 
-To test our setup, check if Webhook is active, if not click "start". Then go to the Windows 10 Agent and execute Mimikatz.exe, then headover to Shuffle and click icon of running person "Show Executions", see if your Shuffle catched mimikatz execution
+**Testing the Wazuh and Shuffle Setup**
+Check if the Webhook trigger is active. If not, click the "Start" button to activate it. Then go to the Windows 10 Agent and execute Mimikatz.exe. After Mimikatz has been executed, switch back to Shuffle. Click on the icon of the running person, labeled "Show Executions", in your workflow dashboard. Check if Shuffle has caught and processed the Mimikatz execution alert sent from Wazuh.
 
 ![image](https://github.com/user-attachments/assets/bd6ec38c-baa2-4934-adda-39d0c075441f)
+
+If everything is set up correctly, you should see the alert for the Mimikatz execution in Shuffle, confirming that the webhook integration works.
