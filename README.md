@@ -242,7 +242,7 @@ The only difference at this stage is that you'll be installing TheHive instead o
     ```
 For more details you can check TheHive installation guide on their official website https://docs.strangebee.com/thehive/installation/step-by-step-installation-guide/
 
-### 2.TheHive Configuration
+### 2. Thehive configuration
 We installed alot of services for our TheHive, now we need to configure it.
 
 #### 2.1 Cassandra Configuration
