@@ -17,9 +17,39 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
 - TheHive for managing incidents and helping the team collaborate.
 - Sysmon for detailed system monitoring on the Windows Wazuh Agent, capturing key event data.
 
-## Table of contents ############# WORK IN PROGRESS!!
-- [1.Install Applications & Virtual Machines](#1-install-applications-and-virtual-machines)
-    - [TheHive Configuration](#23-thehive-configuration)
+## Table of Contents
+- [1. Install Applications & Virtual Machines](#1-install-applications-and-virtual-machines)
+  - [1.1 VirtualBox Installation](#11-virtualbox-installation)
+  - [1.2 Windows 10 Installation](#12-windows-10-installation)
+  - [1.3 Install VirtualBox Guest Additions](#13-install-virtualbox-guest-additions)
+  - [1.4 Install Sysmon for Enhanced Event Tracking](#14-install-sysmon-for-enhanced-event-tracking)
+  - [1.5 Install and configure Ubuntu VMs](#15-install-and-configure-ubuntu-vms)
+- [2. TheHive Configuration](#2-thehive-configuration)
+  - [2.1 Cassandra Configuration](#21-cassandra-configuration)
+  - [2.2 ElasticSearch Configuration](#22-elasticsearch-configuration)
+  - [2.3 TheHive Configuration](#23-thehive-configuration)
+- [3. Wazuh Configuration](#3-wazuh-configuration)
+  - [3.1 Connect Win10 Machine with Wazuh Manager](#31-connect-win10-machine-with-wazuh-manager)
+  - [3.2 Configuring Sysmon Log Ingestion for Wazuh](#32-configuring-sysmon-log-ingestion-for-wazuh)
+- [4. Mimikatz Test](#4-mimikatz-test)
+- [5. Modify Wazuh Configuration](#5-modify-wazuh-configuration)
+  - [5.1 Log all events](#51-log-all-events)
+  - [5.2 Custom Wazuh Rule Creation](#52-custom-wazuh-rule-creation)
+- [6. Shuffle Configuration](#6-shuffle-configuration)
+- [7. Building Workflow](#7-building-workflow)
+  - [7.1 Extracting Hash Value](#71-extracting-hash-value)
+  - [7.2 Check Reputation Score with VirusTotal](#72-check-reputation-score-with-virustotal)
+  - [7.3 Send Details to TheHive](#73-send-details-to-thehive)
+  - [7.4 Send Email to the Analyst](#74-send-email-to-the-analyst)
+- [8. Bonus - Block the IP conducting SSH brute force attempts](#8-bonus---block-the-ip-conducting-ssh-brute-force-attempts)
+  - [8.1 Set Up Ubuntu Machine](#81-set-up-ubuntu-machine)
+  - [8.2 Install Wazuh Agent on Ubuntu](#82-install-wazuh-agent-on-ubuntu)
+  - [8.3 Forward All Level 5 Alerts to Shuffle](#83-forward-all-level-5-alerts-to-shuffle)
+  - [8.4 Enrich the IP Address with VirusTotal Data](#84-enrich-the-ip-address-with-virustotal-data)
+  - [8.5 Notify the Analyst via Email](#85-notify-the-analyst-via-email)
+  - [8.6 Create an Alert in TheHive](#86-create-an-alert-in-thehive)
+  - [8.7 Automatically Block the Source IP if the Analyst Confirms](#87-automatically-block-the-source-ip-if-the-analyst-confirms)
+
 ## Steps
 
 ### 1. Install Applications and Virtual Machines
@@ -302,10 +332,10 @@ Default credentials are:
 - Login: admin@thehive.local
 - Password: secret
 
-### 2 Wazuh Configuration
+### 3. Wazuh Configuration
 Wazuh is a free and open source platform used for threat prevention, detection, and response. It is capable of protecting workloads across on-premises, virtualized, containerized, and cloud-based environments. It unifies XDR and SIEM protection for endpoints and cloud workloads.
 
-#### 1. Connect Win10 Machine with Wazuh Manager
+#### 3.1 Connect Win10 Machine with Wazuh Manager
 
 ![image](https://github.com/user-attachments/assets/917e4637-0f8d-4411-8a20-644e0afb11b2)
 
@@ -326,7 +356,7 @@ In Dashboard click **add agen**t and fill up installation process
 
 Our WazuhAgent and Manager connected successfully, good job!
 
-#### 2. Configuring Sysmon Log Ingestion for Wazuh
+#### 3.2. Configuring Sysmon Log Ingestion for Wazuh
 Now that the Wazuh agent on your Windows 10 machine and the Wazuh Manager are connected, the next step is to configure the agent's telemetry and log ingestion to be sent to the Wazuh Manager.
 
 Access the Configuration File: On your Windows 10 machine, navigate to: 
@@ -359,7 +389,7 @@ Final step is to restart Wazuh. Headover to Services -> Wazuh -> Right Click and
 
 Now we can see Sysmon Events in our Wazuh Dashboard.
 
-#### 3. Mimikatz Test
+#### 4. Mimikatz Test
 Mimikatz is a well-known exploit used on Microsoft Windows to extract passwords stored in memory, typically deployed by attackers or red teamers after compromising a system. In this project, we will configure our Wazuh setup to detect Mimikatz activity on the endpoint (our Windows 10 agent) to catch any potential attackers.
 
 ![image](https://github.com/user-attachments/assets/23e24ae7-0ea8-462a-8a9b-37c56f5d6321)
@@ -400,7 +430,8 @@ It may not specifically identify the process as Mimikatz at first glance.
 
 To improve detection and explicitly flag Mimikatz execution in the logs, we will need to modify Wazuh's configuration. Wazuh uses rules and decoders to analyze log data, so we will create or modify a custom rule that will explicitly detect Mimikatz.
 
-#### 4. Modify Wazuh Configuration
+### 5. Modify Wazuh Configuration
+#### 5.2 Log All Events
 Go to the Wazuh Manager VM console and first make a backup of configuration file ```cp var/ossec/etc/ossec.conf ~/ossec-backup.conf``` then open `ossec.conf file` there change `<logall>` and `<logall_json>` to **yes**
 
 ![image](https://github.com/user-attachments/assets/358335aa-9196-4214-b1df-73e545172dcd)
@@ -428,7 +459,7 @@ Now go to Discover and select archives as index to search through logs
 
 By default, Wazuh only displays logs that trigger predefined rules. However, we’ve configured it to log everything, allowing us to capture and analyze the execution of mimikatz.exe. Now that we can see Mimikatz activity, we can create a custom alert specifically for its execution.
 
-#### 5. Custom Wazuh rule creation
+#### 6. Custom Wazuh rule creation
 When creating a detection rule, it’s more reliable to use data.win.eventdata.originalFileName rather than data.win.eventdata.image
 .The reason for this is that attackers often rename files like Mimikatz.exe to Mimikats.exe to evade detection. By focusing on the process name rather than the full command, we can still detect Mimikatz activity even if the executable is renamed.
 
@@ -462,7 +493,7 @@ Let's test our rule against Mimikatz again. I will rename it to `Mimicool` this 
 
 We caught attempt to use mimikatz on our Wazuh agent, congratulations!
 
-### 4. Shuffle Configuration
+### 7. Shuffle Configuration
 Final objective which will finalise this project with fully functional lab is to connect Shuffle which will send alerts to TheHive and email to SOC Analyst with response question
 What is Shuffle?
 
@@ -499,7 +530,7 @@ Check if the Webhook trigger is active. If not, click the "Start" button to acti
 
 If everything is set up correctly, you should see the alert for the Mimikatz execution in Shuffle, confirming that the webhook integration works.
 
-### 5. Building Workflow
+### 8. Building Workflow
 Now that everything is set up, let’s outline how we can expand the Shuffle workflow for our project to fully automate the alerting and response process
 1. Mimikatz Alert Sent to Shuffle:
     - Wazuh detects the Mimikatz execution and triggers an alert.
@@ -517,7 +548,7 @@ Now that everything is set up, let’s outline how we can expand the Shuffle wor
     - Shuffle sends an email notification to a SOC Analyst with the alert details, including the VirusTotal results and a link to TheHive case.
     - The email serves as a trigger for the analyst to start investigating the alert.
   
-#### 5.1 Extracting Hash Value
+#### 8.1 Extracting Hash Value
 
 ![image](https://github.com/user-attachments/assets/f42a5295-3a4a-434c-abbf-0a9810c7f4cc)
 
@@ -532,7 +563,7 @@ As you see, we just copied hash value. When i copy it to Virustotal it successfu
 
 To finalise this step rename Shuffle Tools icon to "SHA_Regex"
 
-#### 5.2 Check Reputation Score with VirusTotal
+#### 8.2 Check Reputation Score with VirusTotal
 Next step is to send this hash to VirusTotal API to automatically extract reputation score of this hash value. To utilise their API we must create account in VirusTotal. Then copy our API Key and headover to the Shuffle. Add VirusTotal to workflow by clicking "Apps", searching for VirusTotal, activating it and then draging it to the dashboard
 
 
@@ -549,7 +580,7 @@ Again to test this, just save workflow and rerun it by clicking "Rerun Workflow"
 ![image](https://github.com/user-attachments/assets/549b295f-6ca6-4b0b-9003-4247c1d729ea)
 ![image](https://github.com/user-attachments/assets/501806a0-85be-45c3-9c8b-4e11bf2ca695)
 
-#### 5.2 Sent details to TheHive
+#### 8.3 Send details to TheHive
 Similarly to VirusTotal, add TheHive app to the Workflow and connect VirusTotal to TheHive, to authenticate us, we will get API key from the TheHive Dashboard. Log in to TheHive web interface and copy this API key. But first let's create new organization and user. 
 
 ![image](https://github.com/user-attachments/assets/a9a2cb6e-4473-46a8-a722-1c8a71c3f95e)
@@ -595,7 +626,7 @@ Now we can rerun the workflow!
 
 Success! Shuffle automatically created alert in TheHive for further investigation
 
-#### 6. Sent email to the Analyst
+#### 8.4 Sent email to the Analyst
 Next step is to send email to the security analyst containing relevant information.
 
 Drag in and drop email application and connect VirusTotal to Email
@@ -605,7 +636,7 @@ Rerun the workflow and done! We received email that alerts us about potential at
 
 ![image](https://github.com/user-attachments/assets/f28721d6-6e6c-4b1a-a129-a151dae71459)
 
-### 7. Bonus - Block the IP conducting SSH brute force attempts.
+### 9. Bonus - Block the IP conducting SSH brute force attempts.
 1. Set Up Ubuntu Machine
     - Use the lowest possible specifications with a strong SSH password.
     - Allow ALL inbound traffic, which will attract SSH brute force attempts.
