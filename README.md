@@ -18,11 +18,11 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
 - Sysmon for detailed system monitoring on the Windows Wazuh Agent, capturing key event data.
 
 ## Table of contents ############# WORK IN PROGRESS!!
-- [Install Applications & Virtual Machines](#1-install-applications--virtual-machines)
-- [TheHive Configuration](#23-thehive-configuration)
+- [1.Install Applications & Virtual Machines](#1-install-applications-and-virtual-machines)
+    - [TheHive Configuration](#23-thehive-configuration)
 ## Steps
 
-### 1. Install Applications & Virtual Machines
+### 1. Install Applications and Virtual Machines
 We'll kick off our project by setting up the necessary virtual machines and tools in our lab environment. This step involves the installation, configuration, and implementation of the key components we'll be using.
 
 By the end of this step, we will have:
