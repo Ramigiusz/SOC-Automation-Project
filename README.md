@@ -618,7 +618,7 @@ Now we can rerun the workflow!
 
 Success! Shuffle automatically created alert in TheHive for further investigation
 
-#### 7.4 Sent email to the Analyst
+#### 7.4 Send email to the Analyst
 Next step is to send email to the security analyst containing relevant information.
 
 Drag in and drop email application and connect VirusTotal to Email
