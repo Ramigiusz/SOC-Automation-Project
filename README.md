@@ -431,7 +431,7 @@ It may not specifically identify the process as Mimikatz at first glance.
 To improve detection and explicitly flag Mimikatz execution in the logs, we will need to modify Wazuh's configuration. Wazuh uses rules and decoders to analyze log data, so we will create or modify a custom rule that will explicitly detect Mimikatz.
 
 ### 5. Modify Wazuh Configuration
-#### 5.2 Log All Events
+#### 5.1 Log All Events
 Go to the Wazuh Manager VM console and first make a backup of configuration file ```cp var/ossec/etc/ossec.conf ~/ossec-backup.conf``` then open `ossec.conf file` there change `<logall>` and `<logall_json>` to **yes**
 
 ![image](https://github.com/user-attachments/assets/358335aa-9196-4214-b1df-73e545172dcd)
@@ -459,7 +459,7 @@ Now go to Discover and select archives as index to search through logs
 
 By default, Wazuh only displays logs that trigger predefined rules. However, we’ve configured it to log everything, allowing us to capture and analyze the execution of mimikatz.exe. Now that we can see Mimikatz activity, we can create a custom alert specifically for its execution.
 
-#### 6. Custom Wazuh rule creation
+#### 5.2 Custom Wazuh rule creation
 When creating a detection rule, it’s more reliable to use data.win.eventdata.originalFileName rather than data.win.eventdata.image
 .The reason for this is that attackers often rename files like Mimikatz.exe to Mimikats.exe to evade detection. By focusing on the process name rather than the full command, we can still detect Mimikatz activity even if the executable is renamed.
 
@@ -493,7 +493,7 @@ Let's test our rule against Mimikatz again. I will rename it to `Mimicool` this 
 
 We caught attempt to use mimikatz on our Wazuh agent, congratulations!
 
-### 7. Shuffle Configuration
+### 6. Shuffle Configuration
 Final objective which will finalise this project with fully functional lab is to connect Shuffle which will send alerts to TheHive and email to SOC Analyst with response question
 What is Shuffle?
 
@@ -530,7 +530,7 @@ Check if the Webhook trigger is active. If not, click the "Start" button to acti
 
 If everything is set up correctly, you should see the alert for the Mimikatz execution in Shuffle, confirming that the webhook integration works.
 
-### 8. Building Workflow
+### 7. Building Workflow
 Now that everything is set up, let’s outline how we can expand the Shuffle workflow for our project to fully automate the alerting and response process
 1. Mimikatz Alert Sent to Shuffle:
     - Wazuh detects the Mimikatz execution and triggers an alert.
@@ -548,7 +548,7 @@ Now that everything is set up, let’s outline how we can expand the Shuffle wor
     - Shuffle sends an email notification to a SOC Analyst with the alert details, including the VirusTotal results and a link to TheHive case.
     - The email serves as a trigger for the analyst to start investigating the alert.
   
-#### 8.1 Extracting Hash Value
+#### 7.1 Extracting Hash Value
 
 ![image](https://github.com/user-attachments/assets/f42a5295-3a4a-434c-abbf-0a9810c7f4cc)
 
@@ -563,7 +563,7 @@ As you see, we just copied hash value. When i copy it to Virustotal it successfu
 
 To finalise this step rename Shuffle Tools icon to "SHA_Regex"
 
-#### 8.2 Check Reputation Score with VirusTotal
+#### 7.2 Check Reputation Score with VirusTotal
 Next step is to send this hash to VirusTotal API to automatically extract reputation score of this hash value. To utilise their API we must create account in VirusTotal. Then copy our API Key and headover to the Shuffle. Add VirusTotal to workflow by clicking "Apps", searching for VirusTotal, activating it and then draging it to the dashboard
 
 
@@ -580,7 +580,7 @@ Again to test this, just save workflow and rerun it by clicking "Rerun Workflow"
 ![image](https://github.com/user-attachments/assets/549b295f-6ca6-4b0b-9003-4247c1d729ea)
 ![image](https://github.com/user-attachments/assets/501806a0-85be-45c3-9c8b-4e11bf2ca695)
 
-#### 8.3 Send details to TheHive
+#### 7.3 Send details to TheHive
 Similarly to VirusTotal, add TheHive app to the Workflow and connect VirusTotal to TheHive, to authenticate us, we will get API key from the TheHive Dashboard. Log in to TheHive web interface and copy this API key. But first let's create new organization and user. 
 
 ![image](https://github.com/user-attachments/assets/a9a2cb6e-4473-46a8-a722-1c8a71c3f95e)
@@ -626,7 +626,7 @@ Now we can rerun the workflow!
 
 Success! Shuffle automatically created alert in TheHive for further investigation
 
-#### 8.4 Sent email to the Analyst
+#### 7.4 Sent email to the Analyst
 Next step is to send email to the security analyst containing relevant information.
 
 Drag in and drop email application and connect VirusTotal to Email
@@ -636,14 +636,14 @@ Rerun the workflow and done! We received email that alerts us about potential at
 
 ![image](https://github.com/user-attachments/assets/f28721d6-6e6c-4b1a-a129-a151dae71459)
 
-### 9. Bonus - Block the IP conducting SSH brute force attempts.
-1. Set Up Ubuntu Machine
+### 8. Bonus - Block the IP conducting SSH brute force attempts.
+#### 8.1 Set Up Ubuntu Machine
     - Use the lowest possible specifications with a strong SSH password.
     - Allow ALL inbound traffic, which will attract SSH brute force attempts.
-2. Install Wazuh Agent on Ubuntu
-3. Forward All Level 5 Alerts to Shuffle
-4. Enrich the IP Address with VirusTotal Data
-5. Notify the Analyst via Email
+#### 8.2 Install Wazuh Agent on Ubuntu
+#### 8.3 Forward All Level 5 Alerts to Shuffle
+#### 8.4 Enrich the IP Address with VirusTotal Data
+#### 8.5 Notify the Analyst via Email
     - Include alert details and ask whether to block the source IP.
-6. Create an Alert in TheHive
-7. Automatically Block the Source IP if the Analyst Confirms
+#### 8.6 Create an Alert in TheHive
+#### 8.7 Automatically Block the Source IP if the Analyst Confirms
