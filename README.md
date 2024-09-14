@@ -786,7 +786,7 @@ Congratulations! 🎉
 We have now implemented a fully functional automatic response to SSH brute force attacks. This marks the completion of the setup for automatically detecting and mitigating such threats!
 
 ## Sources:
-- Mydfir Channel - https://www.youtube.com/@MyDFIR
+- Mydfir Channel - [https://www.youtube.com/@MyDFIR](https://www.youtube.com/watch?v=Lb_ukgtYK_U&list=PLEd_qaF8wpnXgdngqfsQtYYGM-IdtuxmC)
 - TheHive Documentation https://docs.strangebee.com/
 - Wazuh Documentation https://documentation.wazuh.com/current/index.html
 - Shuffle Documentation https://shuffler.io/docs/about
