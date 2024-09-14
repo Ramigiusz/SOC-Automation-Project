@@ -737,8 +737,46 @@ Now return to Shuffle and under body write:
 
 ![image](https://github.com/user-attachments/assets/decefb92-f845-4a1d-a5b0-be92bf23fed2)
 
-I'm using here source ip of 8.8.8.8 to test our workflow, this will block google.com, we will want to set execution argument with source ip to automatically extract source ip of malicious request.
+Now, we are using the source IP 8.8.8.8 to test the workflow, which would block Google’s IP. In practice, we will configure the execution argument to automatically extract the source IP of the malicious request, ensuring the right IP is blocked based on the alert.
 
-#### 8.4 Send details via Email to the User
-#### 8.5 Create an alert in TheHive
+After running the workflow, you should see the updated iptables configuration on your Ubuntu agent by running: `iptables --list`:
+
+![image](https://github.com/user-attachments/assets/8fde00cb-867b-4639-999d-aa5b8a484fb0)
+
+#### 8.4 Send details via Email to the User 
+We also want to notify the analyst via email, asking them whether they want to block the IP address. We will enrich the email with data from VirusTotal to provide the analyst with better context for making a decision.
+
+In your workflow, drag the User Input app.
+Set the input method to "email" and use the email address that was set earlier in your squareX setup.
+In the information field of the email, you can provide relevant data. Write the following message:
+```
+Would you like to block this source IP: $exec.all_fields.data.srcip
+```
+This will display the source IP for the analyst to review, you can add more information if you wish.
+
+Once the workflow is set, rerun it and ensure that the email is sent as expected.
+
+![image](https://github.com/user-attachments/assets/3365a55f-d093-4f93-a90b-4125823bc678)
+
+I received email asking for my input. Since I am currently using my public IP from a Kali VM for testing, it will display this IP in the email. You don’t want to block your own IP in this case. 
+
 #### 8.6 Test against real threats
+To test with real data, allow all inbound traffic to your Ubuntu agent. This will enable you to capture actual SSH brute force attempts, triggering the alert and workflow for blocking malicious IP addresses.
+
+Create special firewall for ubuntu agent which will allow all inbound traffic. This will expose machine to the internet.
+
+![image](https://github.com/user-attachments/assets/f8112ec7-c7ea-4773-bc45-6a15417d86f2)
+
+Now let's test our workflow against this ip address!
+
+![image](https://github.com/user-attachments/assets/22650d71-0a68-437e-b340-958457a7d510)
+![image](https://github.com/user-attachments/assets/beeddace-59cd-4378-9ade-a1b616369c9f)
+![image](https://github.com/user-attachments/assets/16b8426a-6612-4986-89a2-07c846507b7c)
+![image](https://github.com/user-attachments/assets/2fa8ee54-a331-425a-8744-11caa475c26c)
+![image](https://github.com/user-attachments/assets/44b0f883-dbc3-4cb5-bfa7-c2a477328071)
+
+We have successfully detected a real SSH brute force attempt using our workflow. An email was sent to the analyst with a question on whether to block the suspicious IP address. After responding with "yes," Shuffle sent a request to Wazuh, which in turn blocked the IP on the Ubuntu agent
+
+Congratulations! 🎉
+We have now implemented a fully functional automatic response to SSH brute force attacks. This marks the completion of the setup for automatically detecting and mitigating such threats!
+
