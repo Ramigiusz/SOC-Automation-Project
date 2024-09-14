@@ -629,3 +629,13 @@ Rerun the workflow and done! We received email that alerts us about potential at
 ![image](https://github.com/user-attachments/assets/f28721d6-6e6c-4b1a-a129-a151dae71459)
 
 ### 8. Stopping SSH Bruteforce Attempts
+This is a bonus section of the project, where we will review and consolidate our knowledge by building a workflow around a new issue on a different agent machine. This will allow us to practice the skills we've learned so far. The goal is to create an automated response to SSH brute force attempts. When such an attempt is detected, an email will be sent to the analyst with details of the attack, asking whether the IP address should be blocked. If the analyst approves, the IP will be automatically blocked.
+
+For this task, we will also need an attacker's machine. I'll use a Kali Linux VM installed on my PC. In the future, we'll configure the Ubuntu Agent Machine to allow all inbound traffic, enabling us to test our SOAR (Security Orchestration, Automation, and Response) setup against real SSH brute force attempts.
+#### 8.1 Build and Configure Ubuntu Machine
+#### 8.2 Install Wazuh Agent on Ubuntu
+#### 8.3 Push all level 5 alerts to Shuffle
+#### 8.4 Perform IP Enrichment with VirusTotal
+#### 8.5 Send details via Email to the User
+#### 8.6 Create an alert in TheHive
+#### 8.7 Test against real threats
