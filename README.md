@@ -647,7 +647,7 @@ Similary like before, i will set up Ubuntu VM on Digital Ocean, i will use minim
 ##### **Install Wazuh Agent on Ubuntu**
 First, we will allow traffic from the Ubuntu Agent to reach the Wazuh Manager. Currently, traffic is only allowed from our public IP address. This isn't an issue if you're using an on-premise VM, but in a cloud environment, we need to ensure the Ubuntu VM can communicate with the Wazuh Manager.
 
-![image](https://github.com/user-attachments/assets/94ec8897-91c6-4147-b4ba-eda36dfd3cf0)
+![image](https://github.com/user-attachments/assets/aefecf46-ce8d-4b22-864a-306d6ae3350e)
 
 To install the Wazuh Agent on Ubuntu, the process is similar to installing it on Windows. Start by accessing the Wazuh Manager Web Interface and selecting the "Add Agents" option. Follow the instructions provided by Wazuh, then copy the generated command to the Ubuntu Agent. After completing this process, the Wazuh Agent will be fully installed on the Ubuntu system.
 
