@@ -41,7 +41,7 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
   - [7.2 Check Reputation Score with VirusTotal](#72-check-reputation-score-with-virustotal)
   - [7.3 Send Details to TheHive](#73-send-details-to-thehive)
   - [7.4 Send Email to the Analyst](#74-send-email-to-the-analyst)
-- [8. Bonus: Stoping SSH Bruteforce Attempts](#8-stoping-ssh-bruteforce-attempts)
+- [8. Bonus: Stoping SSH Bruteforce Attempts](#8-stopping-ssh-bruteforce-attempts)
 ## Steps
 
 ### 1. Install Applications and Virtual Machines
@@ -628,4 +628,4 @@ Rerun the workflow and done! We received email that alerts us about potential at
 
 ![image](https://github.com/user-attachments/assets/f28721d6-6e6c-4b1a-a129-a151dae71459)
 
-### 8. Bonus: Stoping SSH Bruteforce Attempts
+### 8. Stopping SSH Bruteforce Attempts
