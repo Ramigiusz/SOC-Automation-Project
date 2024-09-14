@@ -755,6 +755,8 @@ Would you like to block this source IP: $exec.all_fields.data.srcip
 This will display the source IP for the analyst to review, you can add more information if you wish.
 
 Once the workflow is set, rerun it and ensure that the email is sent as expected.
+![image](https://github.com/user-attachments/assets/f75bc9b8-8b8a-4619-8efd-a3a1ab710205)
+
 
 ![image](https://github.com/user-attachments/assets/3365a55f-d093-4f93-a90b-4125823bc678)
 
