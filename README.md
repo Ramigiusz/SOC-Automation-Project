@@ -127,7 +127,7 @@ Here’s how to get Sysmon up and running:
    **Applications and Services -> Microsoft -> Windows -> Sysmon**
     ![image](https://github.com/user-attachments/assets/ddb26fe8-144b-4edd-89fe-8f5960f9afda)
 
-#### 1.5 Install Ubuntu VMs
+#### 1.5 Install and configure Ubuntu VMs
 To complete this step, we'll install Ubuntu systems for our Wazuh Manager and TheHive. Both TheHive and Wazuh are compatible with Ubuntu 22.04 LTS.
 
 **Wazuh Installation**
