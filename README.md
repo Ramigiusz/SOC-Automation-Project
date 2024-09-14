@@ -633,6 +633,7 @@ This is a bonus section of the project, where we will review and consolidate our
 
 For this task, we will also need an attacker's machine. I'll use a Kali Linux VM installed on my PC. In the future, we'll configure the Ubuntu Agent Machine to allow all inbound traffic, enabling us to test our SOAR (Security Orchestration, Automation, and Response) setup against real SSH brute force attempts.
 #### 8.1 Build and Configure Ubuntu Machine
+Similary like before, i will set up Ubuntu VM on Digital Ocean, i will use minimal possible specifications for this machine. For now set it's Firewall to allow traffic from your public IP address and public IP address of Wazuh Manager
 #### 8.2 Install Wazuh Agent on Ubuntu
 #### 8.3 Push all level 5 alerts to Shuffle
 #### 8.4 Perform IP Enrichment with VirusTotal
