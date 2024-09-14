@@ -765,7 +765,7 @@ To test with real data, allow all inbound traffic to your Ubuntu agent. This wil
 
 Create special firewall for ubuntu agent which will allow all inbound traffic. This will expose machine to the internet.
 
-![image](https://github.com/user-attachments/assets/f8112ec7-c7ea-4773-bc45-6a15417d86f2)
+![image](https://github.com/user-attachments/assets/9718efcb-b720-4b83-8716-df070860c1b3)
 
 Now let's test our workflow against this ip address!
 
