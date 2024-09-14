@@ -42,6 +42,7 @@ This SOC Automation Lab project is all about setting up a mini Security Operatio
   - [7.3 Send Details to TheHive](#73-send-details-to-thehive)
   - [7.4 Send Email to the Analyst](#74-send-email-to-the-analyst)
 - [8. Bonus: Stoping SSH Bruteforce Attempts](#8-stopping-ssh-bruteforce-attempts)
+- [Sources](#sources)
 ## Steps
 
 ### 1. Install Applications and Virtual Machines
@@ -783,3 +784,9 @@ We have successfully detected a real SSH brute force attempt using our workflow.
 
 Congratulations! 🎉
 We have now implemented a fully functional automatic response to SSH brute force attacks. This marks the completion of the setup for automatically detecting and mitigating such threats!
+
+## Sources:
+- Mydfir Channel - https://www.youtube.com/@MyDFIR
+- TheHive Documentation https://docs.strangebee.com/
+- Wazuh Documentation https://documentation.wazuh.com/current/index.html
+- Shuffle Documentation https://shuffler.io/docs/about
