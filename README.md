@@ -651,8 +651,94 @@ First, we will allow traffic from the Ubuntu Agent to reach the Wazuh Manager. C
 
 To install the Wazuh Agent on Ubuntu, the process is similar to installing it on Windows. Start by accessing the Wazuh Manager Web Interface and selecting the "Add Agents" option. Follow the instructions provided by Wazuh, then copy the generated command to the Ubuntu Agent. After completing this process, the Wazuh Agent will be fully installed on the Ubuntu system.
 
-#### 8.2 Push all level 5 alerts to Shuffle
+![image](https://github.com/user-attachments/assets/0c1f3a89-d8c7-48af-b602-b7bf9d9b92f5)
+
+Now we can perform little test, hop to your attacker machine and perform hydra dictionary attack on the Ubuntu Agent then we will check how Wazuh interprets this attack attempt.
+
+![image](https://github.com/user-attachments/assets/d2f35649-2fe7-4e18-b910-ada8bcdd89d4)
+
+![image](https://github.com/user-attachments/assets/e08f0a16-fc05-45fc-9a20-7059b0ef4216)
+
+To detect SSH brute force attempts in Wazuh while minimizing noise, it’s crucial to focus on specific rule IDs that are highly indicative of brute force attacks and to avoid redundancy by filtering out rules that may trigger for the same event. We will select:
+- Rule ID 5551 - PAM: Multiple failed logins in a small period of time.
+- Rule ID 5712 - sshd: Attempt to login using a non-existent user
+
+#### 8.2 Push SSH Brute Force attempt alerts to Shuffle
+Similary like before we add Webhook to the workflow with
+
+![image](https://github.com/user-attachments/assets/60ff02be-6d27-47a4-9aa3-515f61e3f75c)
+
+This time integration tag in ossec.conf of Wazuh Manager will catch 2 rules we choose for SSH Brute Force Attempts:
+```
+<integration>
+  <name>shuffle</name>
+  <hook_url>http://<YOUR_SHUFFLE_URL</hook_url>
+  <alert_id>5551, 5712</alert_id>
+  <alert_format>json</alert_format>
+</integration>
+```
+
+Now execute Hydra again and then run this Workflow in Shuffle. You will catch event that activated this rule.
+
+![image](https://github.com/user-attachments/assets/200cdef7-3535-4b4a-a92f-5ad9fa5bea8b)
+
 #### 8.3 Perform IP Enrichment with VirusTotal
+In Shuffle, configure the webhook to connect with VirusTotal. Choose the action “Get an IP address report” for VirusTotal. If necessary, authenticate with the VirusTotal API. In the IP section of the VirusTotal action configuration, set the source IP to be the alert IP received from execution arguments. This ensures that the correct IP address is checked.
+
+Execute the workflow again to verify that the VirusTotal reputation check is functioning correctly.
+
+![image](https://github.com/user-attachments/assets/ee8a7386-729e-454e-9b83-0204696bb1dd)
+
+Since we are currently using a public IP that isn't malicious, you may not see significant results. When you catch real SSH brute force attempts, you may identify malicious IP addresses through VirusTotal.
+
+#### 8.4 Set up Automatic Response
+To begin, Shuffle needs access to the Wazuh API, which will enable various new functions. We can achieve this by sending a curl request to the Wazuh API using the Wazuh API user credentials. This request will extract a JSON token from Wazuh, allowing Shuffle to make subsequent requests to the Wazuh Manager.
+
+Drag the HTTP app into your workflow in Shuffle. Set the action to curl then Insert the following command in the statement field:
+```
+curl -u <WAZUH_API_USER>:<WAZUH_API_PASSWORD> -k -X GET "https://localhost:55000/security/user/authenticate?raw=true"
+```
+Replace `<WAZUH_API_USER>` and `<WAZUH_API_PASSWORD>` with the credentials extracted from the wazuh-passwords.txt file
+Command will return a JSON token that you can use for authentication to the Wazuh Manager API.
+
+To ensure that Shuffle can communicate with the Wazuh Manager, you need to allow traffic on port 55000. This port is used by the Wazuh Manager for API requests. Configure Firewall like we set up earlier.
+
+![image](https://github.com/user-attachments/assets/e1428b3c-38ba-46d9-ac53-59de1f094040)
+
+After running workflow you should retrieve JSON Token.
+
+Now let's begin with building up Automatic Response.
+Drag in the Wazuh Application:
+- Set the action to **Run a command.**
+- Use the API key retrieved from the Get_API HTTP app.
+- For the Agent list, use the argument that extracts the agent_id from the alert.
+- Set Wait for completion to `True`.
+
+**Configure Active Response in Wazuh Manager:**
+We need to go to Wazuh Manager and edit the `ossec.conf` file. In the Active response section, you'll find the list of commands that can be invoked. We are interested in `firewall-drop`.  Scroll down to the <active-response> section under commands and modify it like this:
+```
+  <active-response>
+    <command>firewall-drop</command>
+    <location>local</location>
+    <rule_id>5551,5712</rule_id>
+    <timeout>no</timeout>
+  </active-response>
+```
+The `firewall-drop` command will be invoked on the local machine where Wazuh detects SSH brute force attempts, specifically matching rule IDs 5551 and 5712. The `firewall-drop` action will modify the iptables of the agent to block the source IP address responsible for the SSH brute force attempts. **Remember to restart wazuh manager!**
+
+Now to use this command via API we must append to it timeout value, in case of "no" value is 0 which means command is: `firewall-drop0`
+You can check that in `/var/ossec/bin/agent-control.
+
+![image](https://github.com/user-attachments/assets/8385cdf4-521b-4ba5-88cb-476a69a33bc1)
+
+![image](https://github.com/user-attachments/assets/bbcbfede-037d-4a9c-bbb4-c300f282e9d3)
+
+Now return to Shuffle and under body write:
+
+![image](https://github.com/user-attachments/assets/decefb92-f845-4a1d-a5b0-be92bf23fed2)
+
+I'm using here source ip of 8.8.8.8 to test our workflow, this will block google.com, we will want to set execution argument with source ip to automatically extract source ip of malicious request.
+
 #### 8.4 Send details via Email to the User
 #### 8.5 Create an alert in TheHive
 #### 8.6 Test against real threats
