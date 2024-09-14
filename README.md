@@ -632,11 +632,27 @@ Rerun the workflow and done! We received email that alerts us about potential at
 This is a bonus section of the project, where we will review and consolidate our knowledge by building a workflow around a new issue on a different agent machine. This will allow us to practice the skills we've learned so far. The goal is to create an automated response to SSH brute force attempts. When such an attempt is detected, an email will be sent to the analyst with details of the attack, asking whether the IP address should be blocked. If the analyst approves, the IP will be automatically blocked.
 
 For this task, we will also need an attacker's machine. I'll use a Kali Linux VM installed on my PC. In the future, we'll configure the Ubuntu Agent Machine to allow all inbound traffic, enabling us to test our SOAR (Security Orchestration, Automation, and Response) setup against real SSH brute force attempts.
+
+Before we proceed, we will extract the Wazuh API user login and password. These credentials can be found in the wazuh-install-files.tar archive. To extract it, use the following command:
+```
+tar -axf wazuh-install-files.tar
+```
+Once extracted, open the wazuh-passwords.txt file and locate the API user credentials. Make sure to save them for later use in the project.
+
 #### 8.1 Build and Configure Ubuntu Machine
-Similary like before, i will set up Ubuntu VM on Digital Ocean, i will use minimal possible specifications for this machine. For now set it's Firewall to allow traffic from your public IP address and public IP address of Wazuh Manager
-#### 8.2 Install Wazuh Agent on Ubuntu
-#### 8.3 Push all level 5 alerts to Shuffle
-#### 8.4 Perform IP Enrichment with VirusTotal
-#### 8.5 Send details via Email to the User
-#### 8.6 Create an alert in TheHive
-#### 8.7 Test against real threats
+Similary like before, i will set up Ubuntu VM on Digital Ocean, i will use minimal possible specifications for this machine. For now set it's Firewall to allow traffic from your public IP address and public IP address of Wazuh Manager. Remember to update and upgrade packages of this machine.
+
+![image](https://github.com/user-attachments/assets/f9cc345a-84e8-4fcc-ab1e-a80d98a9614d)
+
+##### **Install Wazuh Agent on Ubuntu**
+First, we will allow traffic from the Ubuntu Agent to reach the Wazuh Manager. Currently, traffic is only allowed from our public IP address. This isn't an issue if you're using an on-premise VM, but in a cloud environment, we need to ensure the Ubuntu VM can communicate with the Wazuh Manager.
+
+![image](https://github.com/user-attachments/assets/94ec8897-91c6-4147-b4ba-eda36dfd3cf0)
+
+To install the Wazuh Agent on Ubuntu, the process is similar to installing it on Windows. Start by accessing the Wazuh Manager Web Interface and selecting the "Add Agents" option. Follow the instructions provided by Wazuh, then copy the generated command to the Ubuntu Agent. After completing this process, the Wazuh Agent will be fully installed on the Ubuntu system.
+
+#### 8.2 Push all level 5 alerts to Shuffle
+#### 8.3 Perform IP Enrichment with VirusTotal
+#### 8.4 Send details via Email to the User
+#### 8.5 Create an alert in TheHive
+#### 8.6 Test against real threats
