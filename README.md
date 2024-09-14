@@ -628,6 +628,8 @@ Rerun the workflow and done! We received email that alerts us about potential at
 
 ![image](https://github.com/user-attachments/assets/f28721d6-6e6c-4b1a-a129-a151dae71459)
 
+This concludes this part of the project. I hope this walkthrough was helpful to you. Good luck, and happy building!
+
 ### 8. Stopping SSH Bruteforce Attempts
 This is a bonus section of the project, where we will review and consolidate our knowledge by building a workflow around a new issue on a different agent machine. This will allow us to practice the skills we've learned so far. The goal is to create an automated response to SSH brute force attempts. When such an attempt is detected, an email will be sent to the analyst with details of the attack, asking whether the IP address should be blocked. If the analyst approves, the IP will be automatically blocked.
 
@@ -781,4 +783,3 @@ We have successfully detected a real SSH brute force attempt using our workflow.
 
 Congratulations! 🎉
 We have now implemented a fully functional automatic response to SSH brute force attacks. This marks the completion of the setup for automatically detecting and mitigating such threats!
-
